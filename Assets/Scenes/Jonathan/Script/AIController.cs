@@ -1,109 +1,134 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class AIController : MonoBehaviour
 {
-    public NavMeshAgent enemy;
-    public float startWaitTime = 4;
-    public float timeToRotate = 2;
-    public float speedWalk = 6;
-    public float speedRun = 9;
-
-    public float viewRadius = 15f;
-    public float viewAngle = 90;
-    public LayerMask playerMask;
-    public LayerMask obstacleMask;
-    public float meshResolution = 1f;
-    public int edgeIterations = 4;
-    public float edgeDistance = 0.5f;
-
-    public Transform[] waypoints;
-    int m_CurrentWaypointIndex;
-
-    Vector3 playerLastPosition = Vector3.zero;
-    Vector3 m_PlayerPosition;
-
-    float m_WaitTime;
-    float m_TimeToRotate;
-    bool m_PlayerInRange;
-    bool m_PlayerNear;
-    bool m_IsPatrol;
-    bool m_CaughtPlayer;
-
-    void Start()
+    public enum EnemyState
     {
-        m_PlayerPosition = Vector3.zero;
-        m_IsPatrol = true;
-        m_CaughtPlayer = false;
-        m_PlayerInRange = false;
-        m_WaitTime = startWaitTime; 
-        m_TimeToRotate = timeToRotate;
-
-        m_CurrentWaypointIndex = 0;
-        enemy = GetComponent<NavMeshAgent>();
-
-        enemy.isStopped = false;
-        enemy.speed = speedWalk;
-        enemy.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+        Idle,
+        Alerted,
+        Chasing
     }
 
-    void Move(float speed)
+    public EnemyState currentState;
+    public Transform player;
+    public float detectionRange = 10f;     
+    public float alertedRange = 5f;         
+    public float chaseRange = 2f;           
+    public float stopDistance = 1.5f;
+
+    private NavMeshAgent agent;             
+    private Rigidbody rb;                   
+    private bool playerDetected = false;
+
+
+    private void Start()
     {
-        enemy.isStopped = false;
-        enemy.speed = speed;
+        agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+
+        agent.SetDestination(player.transform.position);
     }
 
-    void Stop()
+    /*void Start()
     {
-        enemy.isStopped = true;
-        enemy.speed = 0;
+        currentState = EnemyState.Idle;
+
+        agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+
+        agent.updatePosition = false;
+        agent.updateRotation = true;
     }
 
-    public void NextPoint()
+    void Update()
     {
-        m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypoints.Length;
-        enemy.SetDestination(waypoints[m_CurrentWaypointIndex].position);
-    }
-    void CaughtPlayer()
-    {
-        m_PlayerInRange = true;
-    }
-
-    void LookingPlayer(Vector3 player)
-    {
-        enemy.SetDestination(player);
-        if (Vector3.Distance(transform.position, player) <= 0.3)
+        switch (currentState)
         {
-            if (m_WaitTime <= 0)
-            {
-                m_PlayerNear = false;
-                Move(speedWalk);
-                enemy.SetDestination(waypoints[m_CurrentWaypointIndex].position);
-                m_WaitTime = startWaitTime;
-                m_TimeToRotate = timeToRotate;
-            }
-            else
-            {
-                Stop();
-                m_WaitTime -= Time.deltaTime;
-            }
+            case EnemyState.Idle:
+                Idle();
+                break;
+            case EnemyState.Alerted:
+                Alerted();
+                break;
+            case EnemyState.Chasing:
+                Chase();
+                break;
         }
     }
 
-    void EnviromentView()
+    void Idle()
     {
-        Collider[] playerInRange = Physics.OverlapSphere(transform.position,viewRadius, playerMask);
-        for (int i = 0; i < playerInRange.Length; i++)
+        Debug.Log("Enemy is idle.");
+        if (!playerDetected && Vector3.Distance(transform.position, player.position) <= detectionRange)
         {
-            Transform player = playerInRange[i].transform;
-            Vector3 dirToPlayer = (player.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToPlayer) < viewAngle / 2)
-            {
-                float dstToPlayer = Vector3.Distance(transform.position,player.position);
-
-            }
+            playerDetected = true;
+            currentState = EnemyState.Alerted;
         }
+    }
+
+    void Alerted()
+    {
+        Debug.Log("Enemy is alerted.");
+
+        if (Vector3.Distance(transform.position, player.position) <= alertedRange)
+        {
+            currentState = EnemyState.Chasing;
+        }
+        else
+        {
+            agent.SetDestination(player.position);
+
+            MoveAgent();
+        }
+
+        if (Vector3.Distance(transform.position, player.position) > detectionRange)
+        {
+            playerDetected = false;
+            currentState = EnemyState.Idle;
+        }
+    }
+
+    void Chase()
+    {
+        Debug.Log("Enemy is chasing the player.");
+
+        if (Vector3.Distance(transform.position, player.position) <= chaseRange)
+        {
+            agent.SetDestination(player.position);
+
+            MoveAgent();
+        }
+
+        if (Vector3.Distance(transform.position, player.position) > detectionRange)
+        {
+            playerDetected = false;  
+            currentState = EnemyState.Idle;
+        }
+    }
+
+    void MoveAgent()
+    {
+        if (agent.remainingDistance > agent.stoppingDistance)
+        {
+            Vector3 velocity = player.transform.position;
+            agent.SetDestination(velocity);
+        }
+        else
+        {
+            rb.velocity = Vector3.zero;  
+        }
+    }*/
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, alertedRange);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
     }
 }
