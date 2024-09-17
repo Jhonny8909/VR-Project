@@ -5,19 +5,18 @@ using TMPro;
 using UnityEngine.XR;
 using System.Runtime.CompilerServices;
 
-public class ThrowingTutorial : MonoBehaviour
+public class Throwing : MonoBehaviour
 {
-    [Header("References")]
+    
     public Transform cam;
     public Transform attackPoint;
-    public GameObject objectToThrow;
-
-    [Header("Settings")]
+    public GameObject knife;
+    public Transform Parent;
+    bool knifeContact;
+    
     public int totalThrows;
     public float throwCooldown;
 
-    [Header("Throwing")]
-    public KeyCode throwKey = KeyCode.Mouse0;
     public float throwForce;
     public float throwUpwardForce;
 
@@ -27,24 +26,44 @@ public class ThrowingTutorial : MonoBehaviour
     {
         readyToThrow = true;
     }
+    private void Awake()
+    {
+        knifeContact = false;
+    }
 
     private void Update()
     {
-        CheckInput();
+        //CheckInput();
+        MouseInput();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("KnifeSpace"))
+        {
+            knife = Instantiate(knife, Parent); 
+            knife.GetComponent<Rigidbody>().isKinematic = true;
+            knifeContact= true;
+            Debug.Log("KnifeCollider");
+        }
     }
 
     private void Throw()
     {
         readyToThrow = false;
 
-        // instantiate object to throw
-        GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
+        knife.transform.parent = null;
 
-        // get rigidbody component
+        knife.GetComponent<Rigidbody>().isKinematic=false;
+
+        
+        GameObject projectile = Instantiate(knife, cam.position, attackPoint.rotation);
+
+        
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
 
-        // calculate direction
-        Vector3 forceDirection = cam.transform.forward;
+        
+        Vector3 forceDirection = attackPoint.transform.forward;
 
         RaycastHit hit;
 
@@ -53,14 +72,15 @@ public class ThrowingTutorial : MonoBehaviour
             forceDirection = (hit.point - attackPoint.position).normalized;
         }
 
-        // add force
+        
         Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
 
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
 
         totalThrows--;
 
-        // implement throwCooldown
+        knifeContact = false;
+
         Invoke(nameof(ResetThrow), throwCooldown);
     }
 
@@ -69,6 +89,14 @@ public class ThrowingTutorial : MonoBehaviour
         readyToThrow = true;
     }
 
+    void MouseInput()
+    {
+        if (Input.GetMouseButtonDown(0) && readyToThrow && totalThrows > 0 && knifeContact)
+        {
+            Throw();
+        }
+    }
+    /*
     void CheckInput()
     {
         var inputDevices = new List<UnityEngine.XR.InputDevice>();
@@ -82,5 +110,5 @@ public class ThrowingTutorial : MonoBehaviour
                 Debug.Log("TriggerButton is pressed");
             }
         }
-    }
+    }*/
 }
