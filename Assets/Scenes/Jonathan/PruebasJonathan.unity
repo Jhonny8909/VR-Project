@@ -688,8 +688,8 @@ MonoBehaviour:
   currentState: 0
   player: {fileID: 1302326986}
   detectionRange: 10
-  alertedRange: 5
-  chaseRange: 2
+  alertedRange: 6
+  chaseRange: 3
   stopDistance: 1.5
 --- !u!195 &1982918965
 NavMeshAgent:
