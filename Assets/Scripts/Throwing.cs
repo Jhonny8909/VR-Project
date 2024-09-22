@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 public class Throwing : MonoBehaviour
 {
     
-    public Transform cam;
     public Transform attackPoint;
     public GameObject knife;
     public Transform Parent;
@@ -24,10 +23,11 @@ public class Throwing : MonoBehaviour
 
     private void Start()
     {
-        readyToThrow = true;
+        
     }
     private void Awake()
     {
+        readyToThrow = true;
         knifeContact = false;
     }
 
@@ -43,6 +43,7 @@ public class Throwing : MonoBehaviour
         {
             knife = Instantiate(knife, Parent); 
             knife.GetComponent<Rigidbody>().isKinematic = true;
+            knife.transform.localPosition = Vector3.zero;
             knifeContact= true;
             Debug.Log("KnifeCollider");
         }
@@ -54,20 +55,20 @@ public class Throwing : MonoBehaviour
 
         knife.transform.parent = null;
 
-        knife.GetComponent<Rigidbody>().isKinematic=false;
+        Rigidbody rb = knife.GetComponent<Rigidbody>();
 
+        if (rb != null)
+        {
+            knife.GetComponent<Rigidbody>().isKinematic = false;
+        }        
         
-        GameObject projectile = Instantiate(knife, cam.position, attackPoint.rotation);
-
-        
-        Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
-
+        //GameObject projectile = Instantiate(knife, attackPoint.position, attackPoint.rotation);
         
         Vector3 forceDirection = attackPoint.transform.forward;
 
         RaycastHit hit;
 
-        if(Physics.Raycast(cam.position, cam.forward, out hit, 500f))
+        if(Physics.Raycast(attackPoint.position, attackPoint.forward, out hit, 500f))
         {
             forceDirection = (hit.point - attackPoint.position).normalized;
         }
@@ -75,7 +76,7 @@ public class Throwing : MonoBehaviour
         
         Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
 
-        projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
+        rb.AddForce(forceToAdd, ForceMode.Impulse);
 
         totalThrows--;
 
@@ -104,7 +105,7 @@ public class Throwing : MonoBehaviour
         foreach (var device in inputDevices)
         {
             bool triggerValue;
-            if(device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue && readyToThrow && totalThrows > 0)
+            if(device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) knife != null && triggerValue && readyToThrow && totalThrows > 0)
             {
                 Throw ();
                 Debug.Log("TriggerButton is pressed");
