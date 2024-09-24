@@ -24,7 +24,7 @@ public class TpInHouse : MonoBehaviour
             if ((device.characteristics & InputDeviceCharacteristics.Left) == InputDeviceCharacteristics.Left)
             {
                 bool triggerValue;
-                bool releaseChecker; // --> va a checar si durante el frame anterior la booleana triggerValue era true, de ser lo, va a activar el tp
+                //bool releaseChecker; // --> va a checar si durante el frame anterior la booleana triggerValue era true, de ser lo, va a activar el tp
                 //si durante el frame anterior triggerValue era falso, no hara nada.
                 if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue)
                 {
