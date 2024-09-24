@@ -9,9 +9,11 @@ public class Throwing : MonoBehaviour
 {
     
     public Transform attackPoint;
-    public GameObject knife;
-    public Transform Parent;
-    bool knifeContact;
+    //public GameObject knife;
+    //public Transform Parent;
+    //bool knifeContact;
+
+    public TriggerKnife tk;
     
     public int totalThrows;
     public float throwCooldown;
@@ -23,43 +25,28 @@ public class Throwing : MonoBehaviour
 
     private void Start()
     {
-        
+        tk.GetComponent<TriggerKnife>();
     }
     private void Awake()
     {
         readyToThrow = true;
-        knifeContact = false;
+        tk.knifeContact = false;
     }
 
     private void Update()
     {
-        //CheckInput();
-        MouseInput();
+        CheckInput();
+        //MouseInput();
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("KnifeSpace"))
-        {
-            knife = Instantiate(knife, Parent); 
-            knife.GetComponent<Rigidbody>().isKinematic = true;
-            knife.transform.localPosition = Vector3.zero;
-            knifeContact= true;
-            Debug.Log("KnifeCollider");
-        }
-    }
-
     private void Throw()
     {
-        readyToThrow = false;
+        tk.knife.transform.parent = null;
 
-        knife.transform.parent = null;
-
-        Rigidbody rb = knife.GetComponent<Rigidbody>();
+        Rigidbody rb = tk.knife.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
-            knife.GetComponent<Rigidbody>().isKinematic = false;
+            tk.knife.GetComponent<Rigidbody>().isKinematic = false;
         }        
         
         //GameObject projectile = Instantiate(knife, attackPoint.position, attackPoint.rotation);
@@ -79,8 +66,11 @@ public class Throwing : MonoBehaviour
         rb.AddForce(forceToAdd, ForceMode.Impulse);
 
         totalThrows--;
+        
+        readyToThrow = false;
 
-        knifeContact = false;
+
+        tk.knifeContact = false;
 
         Invoke(nameof(ResetThrow), throwCooldown);
     }
@@ -90,26 +80,32 @@ public class Throwing : MonoBehaviour
         readyToThrow = true;
     }
 
-    void MouseInput()
+   /* void MouseInput()
     {
         if (Input.GetMouseButtonDown(0) && readyToThrow && totalThrows > 0 && knifeContact)
         {
             Throw();
         }
-    }
-    /*
-    void CheckInput()
-    {
-        var inputDevices = new List<UnityEngine.XR.InputDevice>();
-        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
-        foreach (var device in inputDevices)
-        {
-            bool triggerValue;
-            if(device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) knife != null && triggerValue && readyToThrow && totalThrows > 0)
-            {
-                Throw ();
-                Debug.Log("TriggerButton is pressed");
-            }
-        }
     }*/
-}
+   void CheckInput()
+   {
+       var inputDevices = new List<InputDevice>();
+       InputDevices.GetDevices(inputDevices); // Este método debe ser reconocido
+
+       foreach (var device in inputDevices)
+       {
+           // Verificar si el dispositivo es el controlador izquierdo
+           if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
+           {
+               bool triggerValue;
+                
+               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow)
+               {
+                   Throw();
+                   Debug.Log("SI");
+               }
+           }
+       }
+    }
+   }
+   
