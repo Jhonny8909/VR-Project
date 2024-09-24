@@ -625,7 +625,7 @@ Transform:
   m_GameObject: {fileID: 228888626}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0050714584, z: -0, w: 0.9999872}
-  m_LocalPosition: {x: -0, y: 0.773, z: 0.061}
+  m_LocalPosition: {x: 0.03, y: 0.773, z: 0.061}
   m_LocalScale: {x: 0.6179293, y: 0.61792916, z: 0.6179293}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -650,8 +650,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.51808417, y: 1.3074198, z: 0.7055319}
-  m_Center: {x: -0.35198084, y: 0.15370789, z: -0.030269103}
+  m_Size: {x: 0.5180842, y: 0.934904, z: 0.7055319}
+  m_Center: {x: -0.35198098, y: 0.20418353, z: -0.030269101}
 --- !u!54 &228888629
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -915,8 +915,6 @@ MonoBehaviour:
   tk: {fileID: 1360960220}
   totalThrows: 100
   throwCooldown: 0.5
-  throwForce: 100
-  throwUpwardForce: 0
 --- !u!1 &328222388
 GameObject:
   m_ObjectHideFlags: 0
@@ -3034,7 +3032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knifeContact: 0
-  knife: {fileID: 4504824222451691701, guid: 545ea29c9df84a64690a9c5df1e0d3a7, type: 3}
+  knife: {fileID: 5913056032643362843, guid: b233d6a4b3bca754f9f89d04753bc23f, type: 3}
   Parent: {fileID: 1360960215}
 --- !u!65 &1360960225
 BoxCollider:

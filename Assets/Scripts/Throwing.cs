@@ -9,17 +9,14 @@ public class Throwing : MonoBehaviour
 {
     
     public Transform attackPoint;
-    //public GameObject knife;
-    //public Transform Parent;
-    //bool knifeContact;
-
+    
     public TriggerKnife tk;
     
     public int totalThrows;
     public float throwCooldown;
 
-    public float throwForce;
-    public float throwUpwardForce;
+    //public float throwForce;
+    //public float throwUpwardForce;
 
     bool readyToThrow;
 
@@ -51,7 +48,7 @@ public class Throwing : MonoBehaviour
         
         //GameObject projectile = Instantiate(knife, attackPoint.position, attackPoint.rotation);
         
-        Vector3 forceDirection = attackPoint.transform.forward;
+        /*Vector3 forceDirection = attackPoint.transform.forward;
 
         RaycastHit hit;
 
@@ -63,7 +60,7 @@ public class Throwing : MonoBehaviour
         
         Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
 
-        rb.AddForce(forceToAdd, ForceMode.Impulse);
+        rb.AddForce(forceToAdd, ForceMode.Impulse); */
 
         totalThrows--;
         
@@ -90,16 +87,16 @@ public class Throwing : MonoBehaviour
    void CheckInput()
    {
        var inputDevices = new List<InputDevice>();
-       InputDevices.GetDevices(inputDevices); // Este método debe ser reconocido
+       InputDevices.GetDevices(inputDevices); 
 
        foreach (var device in inputDevices)
        {
-           // Verificar si el dispositivo es el controlador izquierdo
+           
            if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
            {
                bool triggerValue;
                 
-               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow)
+               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && totalThrows > 0)
                {
                    Throw();
                    Debug.Log("SI");
