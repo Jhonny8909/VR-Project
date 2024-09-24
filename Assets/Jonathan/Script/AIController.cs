@@ -18,9 +18,9 @@ public class AIController : MonoBehaviour
     public float chaseRange = 2f;
     public float stopDistance = 1.5f;
 
-    public Transform[] patrolPoints;  // Puntos de patrullaje
+    public Transform[] patrolPoints;
     private int currentPatrolIndex = 0;
-    public float patrolSpeed = 2f;   // Velocidad de patrullaje
+    public float patrolSpeed = 2f;
 
     private NavMeshAgent agent;
     private bool playerDetected = false;
@@ -34,7 +34,6 @@ public class AIController : MonoBehaviour
         agent.updatePosition = true;
         agent.updateRotation = true;
 
-        // Configura el primer destino de patrullaje
         if (patrolPoints.Length > 0)
         {
             agent.SetDestination(patrolPoints[currentPatrolIndex].position);
@@ -67,7 +66,6 @@ public class AIController : MonoBehaviour
             currentState = EnemyState.Alerted;
         }
 
-        // Patrullaje: el enemigo se mueve entre los puntos de patrullaje
         Patrol();
     }
 
@@ -116,15 +114,13 @@ public class AIController : MonoBehaviour
         if (patrolPoints.Length == 0)
             return;
 
-        // Si el enemigo ha llegado al punto de patrullaje actual
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
-            // Cambia al siguiente punto de patrullaje
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
             agent.SetDestination(patrolPoints[currentPatrolIndex].position);
         }
 
-        agent.speed = patrolSpeed; // Asigna la velocidad de patrullaje
+        agent.speed = patrolSpeed; 
     }
 
     bool IsPlayerInSight()

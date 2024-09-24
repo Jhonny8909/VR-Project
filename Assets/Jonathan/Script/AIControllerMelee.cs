@@ -7,7 +7,8 @@ public class AIControllerMelee : MonoBehaviour
     {
         Idle,
         Alerted,
-        Chasing
+        Chasing,
+        Attack
     }
 
     public EnemyState currentState;
@@ -52,6 +53,9 @@ public class AIControllerMelee : MonoBehaviour
                 break;
             case EnemyState.Chasing:
                 Chase();
+                break;
+            case EnemyState.Attack:
+                Attack();
                 break;
         }
     }
@@ -101,6 +105,10 @@ public class AIControllerMelee : MonoBehaviour
             agent.SetDestination(player.position);
             agent.speed = 3;
         }
+        else if (distanceToPlayer <= stopDistance)
+        {
+            currentState = EnemyState.Attack;
+        }
 
         if (!IsPlayerInSight())
         {
@@ -108,8 +116,6 @@ public class AIControllerMelee : MonoBehaviour
             currentState = EnemyState.Idle;
         }
     }
-
-
 
     void Patrol()
     {
@@ -123,6 +129,22 @@ public class AIControllerMelee : MonoBehaviour
         }
 
         agent.speed = patrolSpeed;
+    }
+
+    void Attack()
+    {
+        Debug.Log("Enemy is attacking the player.");
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer >= stopDistance)
+        {
+            currentState = EnemyState.Chasing;
+        }
+        else
+        {
+            agent.speed = 0;
+        }
     }
 
     bool IsPlayerInSight()
@@ -143,6 +165,8 @@ public class AIControllerMelee : MonoBehaviour
         }
         return false;
     }
+
+
 
     private void OnDrawGizmosSelected()
     {
