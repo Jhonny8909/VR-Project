@@ -8,6 +8,7 @@ public class TriggerKnife : MonoBehaviour
     public bool knifeContact;
     public GameObject knife;
     public Transform Parent;
+    public float totalThrows;
 
     private void Awake()
     {

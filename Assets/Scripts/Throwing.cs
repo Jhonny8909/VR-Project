@@ -12,11 +12,7 @@ public class Throwing : MonoBehaviour
     
     public TriggerKnife tk;
     
-    public int totalThrows;
     public float throwCooldown;
-
-    //public float throwForce;
-    //public float throwUpwardForce;
 
     bool readyToThrow;
 
@@ -45,31 +41,15 @@ public class Throwing : MonoBehaviour
         {
             tk.knife.GetComponent<Rigidbody>().isKinematic = false;
         }        
-        
-        //GameObject projectile = Instantiate(knife, attackPoint.position, attackPoint.rotation);
-        
-        /*Vector3 forceDirection = attackPoint.transform.forward;
 
-        RaycastHit hit;
-
-        if(Physics.Raycast(attackPoint.position, attackPoint.forward, out hit, 500f))
-        {
-            forceDirection = (hit.point - attackPoint.position).normalized;
-        }
-
-        
-        Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
-
-        rb.AddForce(forceToAdd, ForceMode.Impulse); */
-
-        totalThrows--;
+        tk.totalThrows--;
         
         readyToThrow = false;
 
 
         tk.knifeContact = false;
 
-        Invoke(nameof(ResetThrow), throwCooldown);
+        Invoke(nameof(ResetThrow),throwCooldown);
     }
 
     private void ResetThrow()
@@ -77,13 +57,6 @@ public class Throwing : MonoBehaviour
         readyToThrow = true;
     }
 
-   /* void MouseInput()
-    {
-        if (Input.GetMouseButtonDown(0) && readyToThrow && totalThrows > 0 && knifeContact)
-        {
-            Throw();
-        }
-    }*/
    void CheckInput()
    {
        var inputDevices = new List<InputDevice>();
@@ -96,7 +69,7 @@ public class Throwing : MonoBehaviour
            {
                bool triggerValue;
                 
-               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && totalThrows > 0)
+               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
                {
                    Throw();
                    Debug.Log("SI");
@@ -104,5 +77,5 @@ public class Throwing : MonoBehaviour
            }
        }
     }
-   }
+  }
    
