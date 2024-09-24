@@ -11,6 +11,7 @@ public class TurretAI : MonoBehaviour
     public LayerMask obstacleMask;
     public LayerMask playerMask;
     public LineRenderer lineRenderer;
+    public Transform camera;
 
     private bool playerDetected = false;
     private float rotationAmount;
@@ -85,32 +86,32 @@ public class TurretAI : MonoBehaviour
 
     void UpdateLineRenderer()
     {
-        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(0, camera.position);
 
         Vector3 rightDirection = DirectionFromAngle(fieldOfViewAngle / 2);
         Vector3 leftDirection = DirectionFromAngle(-fieldOfViewAngle / 2);
 
-        lineRenderer.SetPosition(1, transform.position + rightDirection * detectionRange);
-        lineRenderer.SetPosition(2, transform.position + leftDirection * detectionRange);
+        lineRenderer.SetPosition(1, camera.position + rightDirection * detectionRange);
+        lineRenderer.SetPosition(2, camera.position + leftDirection * detectionRange);
 
-        lineRenderer.SetPosition(3, transform.position);
+        lineRenderer.SetPosition(3, camera.position);
     }
 
     Vector3 DirectionFromAngle(float angleInDegrees)
     {
-        return Quaternion.Euler(0, angleInDegrees + transform.eulerAngles.y, 0) * Vector3.forward;
+        return Quaternion.Euler(0, angleInDegrees + camera.eulerAngles.y, 0) * camera.forward;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(camera.position, detectionRange);
 
-        Vector3 rightLimit = Quaternion.Euler(0, fieldOfViewAngle / 2, 0) * transform.forward * detectionRange;
-        Vector3 leftLimit = Quaternion.Euler(0, -fieldOfViewAngle / 2, 0) * transform.forward * detectionRange;
+        Vector3 rightLimit = Quaternion.Euler(0, fieldOfViewAngle / 2, 0) * camera.forward * detectionRange;
+        Vector3 leftLimit = Quaternion.Euler(0, -fieldOfViewAngle / 2, 0) * camera.forward * detectionRange;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, rightLimit);
-        Gizmos.DrawRay(transform.position, leftLimit);
+        Gizmos.DrawRay(camera.position, rightLimit);
+        Gizmos.DrawRay(camera.position, leftLimit);
     }
 }
