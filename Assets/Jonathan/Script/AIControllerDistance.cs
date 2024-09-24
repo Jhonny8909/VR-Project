@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AIControllerMelee : MonoBehaviour
+public class AIControllerDistance : MonoBehaviour
 {
     public enum EnemyState
     {
         Idle,
         Alerted,
-        Chasing,
         Attack
     }
 
@@ -15,19 +14,18 @@ public class AIControllerMelee : MonoBehaviour
     public Transform player;
     public float detectionRange = 10f;
     public float fieldOfViewAngle = 60f;
-    public float alertedRange = 5f;
-    public float chaseRange = 2f;
-    public float stopDistance = 1.5f;
+    public float attackRange = 5f;
 
     [Header("Patrol Settings")]
     public Transform[] patrolPoints;
     private int currentPatrolIndex = 0;
     public float patrolSpeed = 2f;
     public float alertSpeed = 1f;
-    public float chaseSpeed = 3f;
 
     private NavMeshAgent agent;
     public LayerMask obstacleMask;
+    public LayerMask playerMask; // Para reconocer al jugador con el raycast
+
     float distanceToPlayer;
 
     void Start()
@@ -43,6 +41,7 @@ public class AIControllerMelee : MonoBehaviour
 
     void Update()
     {
+        distanceToPlayer = Vector3.Distance(transform.position, player.position);
         switch (currentState)
         {
             case EnemyState.Idle:
@@ -55,10 +54,6 @@ public class AIControllerMelee : MonoBehaviour
 
             case EnemyState.Alerted:
                 Alerted();
-                break;
-
-            case EnemyState.Chasing:
-                Chase();
                 break;
 
             case EnemyState.Attack:
@@ -74,9 +69,6 @@ public class AIControllerMelee : MonoBehaviour
         {
             case EnemyState.Alerted:
                 agent.speed = alertSpeed;
-                break;
-            case EnemyState.Chasing:
-                agent.speed = chaseSpeed;
                 break;
             case EnemyState.Idle:
                 agent.speed = patrolSpeed;
@@ -109,25 +101,9 @@ public class AIControllerMelee : MonoBehaviour
     void Alerted()
     {
         Debug.Log("Enemy is alerted.");
-        agent.SetDestination(player.position);
 
-        if (Vector3.Distance(transform.position, player.position) <= alertedRange)
-        {
-            TransitionToState(EnemyState.Chasing);
-        }
-        else if (!IsPlayerInSight())
-        {
-            TransitionToState(EnemyState.Idle);
-        }
-    }
-
-    void Chase()
-    {
-        Debug.Log("Enemy is chasing the player.");
-        agent.SetDestination(player.position);
-
-        distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= stopDistance)
+        
+        if (distanceToPlayer <= attackRange)
         {
             TransitionToState(EnemyState.Attack);
         }
@@ -139,23 +115,34 @@ public class AIControllerMelee : MonoBehaviour
 
     void Attack()
     {
-        Debug.Log("Enemy is attacking the player.");
+        Debug.Log("Enemy is attempting to attack the player.");
 
         agent.isStopped = true;
 
-        PerformAttack();
+        RaycastHit hit;
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
-        distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer > stopDistance)
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, attackRange, obstacleMask | playerMask))
+        {
+            if (hit.transform.CompareTag("Player"))
+            {
+                Debug.Log("Enemy hits the player with a raycast!");
+                KillPlayer();
+            }
+        }
+
+        if (distanceToPlayer > attackRange)
         {
             agent.isStopped = false;
-            TransitionToState(EnemyState.Chasing);
+            TransitionToState(EnemyState.Idle);
         }
+
+        
     }
 
-    void PerformAttack()
+    void KillPlayer()
     {
-        Debug.Log("Enemy performs an attack!");
+        Debug.Log("Player has been killed by the enemy.");
     }
 
     bool IsPlayerInSight()
