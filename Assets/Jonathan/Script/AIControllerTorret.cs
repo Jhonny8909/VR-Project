@@ -11,7 +11,7 @@ public class TurretAI : MonoBehaviour
     public LayerMask obstacleMask;
     public LayerMask playerMask;
     public LineRenderer lineRenderer;
-    public Transform camera;
+    public Transform Camera;
 
     private bool playerDetected = false;
     private float rotationAmount;
@@ -39,7 +39,7 @@ public class TurretAI : MonoBehaviour
     void RotateTurret()
     {
         rotationAmount = Mathf.PingPong(Time.time * rotationSpeed, fieldOfViewAngle) - (fieldOfViewAngle / 2);
-        transform.rotation = Quaternion.Euler(0, rotationAmount, 0);
+        transform.rotation = Quaternion.Euler(30f, rotationAmount, transform.rotation.z);
     }
 
     bool IsPlayerInSight()
@@ -86,32 +86,32 @@ public class TurretAI : MonoBehaviour
 
     void UpdateLineRenderer()
     {
-        lineRenderer.SetPosition(0, camera.position);
+        lineRenderer.SetPosition(0, Camera.position);
 
         Vector3 rightDirection = DirectionFromAngle(fieldOfViewAngle / 2);
         Vector3 leftDirection = DirectionFromAngle(-fieldOfViewAngle / 2);
 
-        lineRenderer.SetPosition(1, camera.position + rightDirection * detectionRange);
-        lineRenderer.SetPosition(2, camera.position + leftDirection * detectionRange);
+        lineRenderer.SetPosition(1, Camera.position + rightDirection * detectionRange);
+        lineRenderer.SetPosition(2, Camera.position + leftDirection * detectionRange);
 
-        lineRenderer.SetPosition(3, camera.position);
+        lineRenderer.SetPosition(3, Camera.position);
     }
 
     Vector3 DirectionFromAngle(float angleInDegrees)
     {
-        return Quaternion.Euler(0, angleInDegrees + camera.eulerAngles.y, 0) * camera.forward;
+        return Quaternion.Euler(0, angleInDegrees + Camera.eulerAngles.y, 0) * Camera.forward;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(camera.position, detectionRange);
+        Gizmos.DrawWireSphere(Camera.position, detectionRange);
 
-        Vector3 rightLimit = Quaternion.Euler(0, fieldOfViewAngle / 2, 0) * camera.forward * detectionRange;
-        Vector3 leftLimit = Quaternion.Euler(0, -fieldOfViewAngle / 2, 0) * camera.forward * detectionRange;
+        Vector3 rightLimit = Quaternion.Euler(0, fieldOfViewAngle / 2, 0) * Camera.forward * detectionRange;
+        Vector3 leftLimit = Quaternion.Euler(0, -fieldOfViewAngle / 2, 0) * Camera.forward * detectionRange;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(camera.position, rightLimit);
-        Gizmos.DrawRay(camera.position, leftLimit);
+        Gizmos.DrawRay(Camera.position, rightLimit);
+        Gizmos.DrawRay(Camera.position, leftLimit);
     }
 }
