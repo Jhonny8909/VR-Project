@@ -16,6 +16,9 @@ public class Throwing : MonoBehaviour
 
     bool readyToThrow;
 
+    bool previousFrame;
+    bool triggerPressed;
+
     private void Start()
     {
         tk.GetComponent<TriggerKnife>();
@@ -46,7 +49,6 @@ public class Throwing : MonoBehaviour
         
         readyToThrow = false;
 
-
         tk.knifeContact = false;
 
         Invoke(nameof(ResetThrow),throwCooldown);
@@ -71,8 +73,12 @@ public class Throwing : MonoBehaviour
                 
                if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
                {
-                   Throw();
-                   Debug.Log("SI");
+                    if(!triggerPressed)
+                    {
+                        Throw();
+                        Debug.Log("SI");
+                    }
+                  
                }
            }
        }
