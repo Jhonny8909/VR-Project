@@ -16,12 +16,12 @@ public class Throwing : MonoBehaviour
 
     bool readyToThrow;
 
-    bool triggerPressed = false;
+    bool previousFrame;
+    bool triggerPressed;
 
     private void Start()
     {
         tk.GetComponent<TriggerKnife>();
-        
     }
     private void Awake()
     {
@@ -70,19 +70,16 @@ public class Throwing : MonoBehaviour
            if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
            {
                bool triggerValue;
-               
-                while (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0) {
-                    triggerPressed = true;
-                }
-               /*if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
+                
+               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
                {
-                    triggerPressed = true;  
-               }*/
-               if(!triggerPressed && tk.instan == true)
-                {
-                    Throw();
-                    Debug.Log("SI");
-                }
+                    if(!triggerPressed)
+                    {
+                        Throw();
+                        Debug.Log("SI");
+                    }
+                  
+               }
            }
        }
     }

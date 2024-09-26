@@ -28,10 +28,13 @@ public class AIControllerDistance : MonoBehaviour
 
     float distanceToPlayer;
 
+    private VRInvisibility vRInvisibility;
+
     void Start()
     {
         currentState = EnemyState.Idle;
         agent = GetComponent<NavMeshAgent>();
+        vRInvisibility = FindObjectOfType<VRInvisibility>();
 
         if (patrolPoints.Length > 0)
         {
@@ -149,15 +152,17 @@ public class AIControllerDistance : MonoBehaviour
     {
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= detectionRange)
+        if (!vRInvisibility.IsInvisible)
         {
-            float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-            if (angleToPlayer <= fieldOfViewAngle / 2)
+            if (distanceToPlayer <= detectionRange)
             {
-                if (!Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleMask))
+                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+                if (angleToPlayer <= fieldOfViewAngle / 2)
                 {
-                    return true;
+                    if (!Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleMask))
+                    {
+                        return true;
+                    }
                 }
             }
         }
