@@ -17,7 +17,7 @@ public class Throwing : MonoBehaviour
     bool readyToThrow;
 
     bool previousFrame;
-    bool triggerPressed;
+    bool triggerPressed = false;
 
     private void Start()
     {
@@ -70,10 +70,12 @@ public class Throwing : MonoBehaviour
            if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
            {
                bool triggerValue;
-                
-               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
+
+               while (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
                {
-                    if(!triggerPressed)
+                   triggerPressed = true;
+               }
+               if(tk.instan && !triggerPressed)
                     {
                         Throw();
                         Debug.Log("SI");
@@ -83,5 +85,5 @@ public class Throwing : MonoBehaviour
            }
        }
     }
-  }
+  
    

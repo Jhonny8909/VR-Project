@@ -9,6 +9,7 @@ public class TriggerKnife : MonoBehaviour
     public GameObject knife;
     public Transform Parent;
     public float totalThrows;
+    public bool instan;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class TriggerKnife : MonoBehaviour
             knife.GetComponent<Rigidbody>().isKinematic = true;
             knife.transform.localPosition = Vector3.zero;
             knifeContact= true;
+            instan = true;
             Debug.Log("KnifeCollider");
         }
     }
