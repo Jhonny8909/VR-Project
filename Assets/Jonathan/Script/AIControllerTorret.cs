@@ -11,13 +11,17 @@ public class TurretAI : MonoBehaviour
     public LayerMask obstacleMask;
     public LayerMask playerMask;
     public LineRenderer lineRenderer;
-    public Transform Camera;
 
     private bool playerDetected = false;
     private float rotationAmount;
+    private Quaternion initialRotation;
+
+    public Transform turretCamera;
 
     void Start()
     {
+        initialRotation = transform.rotation;
+
         lineRenderer.positionCount = 4;
         lineRenderer.startWidth = 0.05f;
         lineRenderer.endWidth = 0.05f;
@@ -26,7 +30,6 @@ public class TurretAI : MonoBehaviour
     void Update()
     {
         RotateTurret();
-
         UpdateLineRenderer();
 
         if (IsPlayerInSight())
@@ -38,8 +41,8 @@ public class TurretAI : MonoBehaviour
 
     void RotateTurret()
     {
-        rotationAmount = Mathf.PingPong(Time.time * rotationSpeed, fieldOfViewAngle) - (fieldOfViewAngle / 2);
-        transform.rotation = Quaternion.Euler(30f, rotationAmount, transform.rotation.z);
+        float rotationOffset = Mathf.PingPong(Time.time * rotationSpeed, fieldOfViewAngle) - (fieldOfViewAngle / 2);
+        transform.rotation = initialRotation * Quaternion.Euler(0, rotationOffset, 0);
     }
 
     bool IsPlayerInSight()
@@ -86,32 +89,33 @@ public class TurretAI : MonoBehaviour
 
     void UpdateLineRenderer()
     {
-        lineRenderer.SetPosition(0, Camera.position);
+        lineRenderer.SetPosition(0, turretCamera.position);
 
         Vector3 rightDirection = DirectionFromAngle(fieldOfViewAngle / 2);
         Vector3 leftDirection = DirectionFromAngle(-fieldOfViewAngle / 2);
 
-        lineRenderer.SetPosition(1, Camera.position + rightDirection * detectionRange);
-        lineRenderer.SetPosition(2, Camera.position + leftDirection * detectionRange);
+        lineRenderer.SetPosition(1, turretCamera.position + rightDirection * detectionRange);
+        lineRenderer.SetPosition(2, turretCamera.position + leftDirection * detectionRange);
 
-        lineRenderer.SetPosition(3, Camera.position);
+        // Cerrar el triángulo
+        lineRenderer.SetPosition(3, turretCamera.position);
     }
 
     Vector3 DirectionFromAngle(float angleInDegrees)
     {
-        return Quaternion.Euler(0, angleInDegrees + Camera.eulerAngles.y, 0) * Camera.forward;
+        return Quaternion.Euler(turretCamera.eulerAngles.x, angleInDegrees + turretCamera.eulerAngles.y, 0) * Vector3.forward;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(Camera.position, detectionRange);
+        Gizmos.DrawWireSphere(turretCamera.position, detectionRange);
 
-        Vector3 rightLimit = Quaternion.Euler(0, fieldOfViewAngle / 2, 0) * Camera.forward * detectionRange;
-        Vector3 leftLimit = Quaternion.Euler(0, -fieldOfViewAngle / 2, 0) * Camera.forward * detectionRange;
+        Vector3 rightLimit = Quaternion.Euler(0, fieldOfViewAngle / 2, 0) * turretCamera.forward * detectionRange;
+        Vector3 leftLimit = Quaternion.Euler(0, -fieldOfViewAngle / 2, 0) * turretCamera.forward * detectionRange;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(Camera.position, rightLimit);
-        Gizmos.DrawRay(Camera.position, leftLimit);
+        Gizmos.DrawRay(turretCamera.position, rightLimit);
+        Gizmos.DrawRay(turretCamera.position, leftLimit);
     }
 }
