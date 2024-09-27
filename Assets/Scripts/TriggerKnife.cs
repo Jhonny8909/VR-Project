@@ -15,7 +15,7 @@ public class TriggerKnife : MonoBehaviour
 
     private void Awake()
     {
-        knife.GetComponent<Collider2D>().isTrigger =false;
+        
     }
 
     public void OnTriggerEnter(Collider other)
