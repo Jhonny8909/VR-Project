@@ -49,6 +49,8 @@ public class Throwing : MonoBehaviour
         
         readyToThrow = false;
 
+        Invoke(nameof(RemoveTrigger),throwCooldown);
+
         tk.knifeContact = false;
 
         Invoke(nameof(ResetThrow),throwCooldown);
@@ -81,9 +83,14 @@ public class Throwing : MonoBehaviour
                         Debug.Log("SI");
                     }
                   
-               }
            }
        }
+   }
+    void RemoveTrigger()
+    {
+        tk.knife.GetComponent<Collider2D>().isTrigger = false;
     }
+}
+
   
    
