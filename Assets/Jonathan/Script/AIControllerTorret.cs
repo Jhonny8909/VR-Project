@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TurretAI : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class TurretAI : MonoBehaviour
 
     public Transform turretCamera;
 
+    private VRInvisibility vRInvisibility;
+
     void Start()
     {
         initialRotation = transform.rotation;
@@ -25,6 +28,8 @@ public class TurretAI : MonoBehaviour
         lineRenderer.positionCount = 4;
         lineRenderer.startWidth = 0.05f;
         lineRenderer.endWidth = 0.05f;
+
+        vRInvisibility = FindObjectOfType<VRInvisibility>();
     }
 
     void Update()
@@ -49,20 +54,22 @@ public class TurretAI : MonoBehaviour
     {
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= detectionRange)
+        if (!vRInvisibility.IsInvisible)
         {
-            float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-            if (angleToPlayer <= fieldOfViewAngle / 2)
+            if (distanceToPlayer <= detectionRange)
             {
-                if (!Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleMask))
+                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+                if (angleToPlayer <= fieldOfViewAngle / 2)
                 {
-                    playerDetected = true;
-                    return true;
+                    if (!Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleMask))
+                    {
+                        playerDetected = true;
+                        return true;
+                    }
                 }
             }
         }
-
+            
         playerDetected = false;
         return false;
     }
@@ -85,6 +92,7 @@ public class TurretAI : MonoBehaviour
     void KillPlayer()
     {
         Debug.Log("Player has been killed by the turret.");
+        SceneManager.LoadScene("GrayBox2.0");
     }
 
     void UpdateLineRenderer()

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class AIControllerDistance : MonoBehaviour
 {
@@ -121,18 +122,8 @@ public class AIControllerDistance : MonoBehaviour
         Debug.Log("Enemy is attempting to attack the player.");
 
         agent.isStopped = true;
-
-        RaycastHit hit;
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-
-        if (Physics.Raycast(transform.position, directionToPlayer, out hit, attackRange, obstacleMask | playerMask))
-        {
-            if (hit.transform.CompareTag("Player"))
-            {
-                Debug.Log("Enemy hits the player with a raycast!");
-                KillPlayer();
-            }
-        }
+        
+        KillPlayer();
 
         if (distanceToPlayer > attackRange)
         {
@@ -146,6 +137,7 @@ public class AIControllerDistance : MonoBehaviour
     void KillPlayer()
     {
         Debug.Log("Player has been killed by the enemy.");
+        SceneManager.LoadScene("GrayBox2.0");
     }
 
     bool IsPlayerInSight()
