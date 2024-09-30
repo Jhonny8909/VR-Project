@@ -36,13 +36,13 @@ public class Throwing : MonoBehaviour
     }
     private void Throw()
     {
-        tk.knife.transform.parent = null;
+        tk.heldKnife.transform.parent = null;
 
-        Rigidbody rb = tk.knife.GetComponent<Rigidbody>();
+        Rigidbody rb = tk.heldKnife.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
-            tk.knife.GetComponent<Rigidbody>().isKinematic = false;
+            tk.heldKnife.GetComponent<Rigidbody>().isKinematic = false;
         }        
 
         tk.totalThrows--;
@@ -73,7 +73,7 @@ public class Throwing : MonoBehaviour
            {
                bool triggerValue;
 
-               while (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
+               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
                {
                    triggerPressed = true;
                }
@@ -88,7 +88,26 @@ public class Throwing : MonoBehaviour
    }
     void RemoveTrigger()
     {
-        tk.knife.GetComponent<Collider2D>().isTrigger = false;
+        tk.heldKnife.GetComponent<Collider>().isTrigger = false;
+    }
+
+    void TriggerPressed()
+    {
+        var inputDevices = new List<InputDevice>();
+        InputDevices.GetDevices(inputDevices);
+
+        foreach (var device in inputDevices)
+        {
+            if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
+            {
+                bool triggerValue;
+
+                while (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue) { 
+
+
+                    }
+                }
+            }
     }
 }
 
