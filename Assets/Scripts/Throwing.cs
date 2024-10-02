@@ -1,97 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.XR;
-using System.Runtime.CompilerServices;
 
 public class Throwing : MonoBehaviour
 {
-    
     public Transform attackPoint;
-    
-    public TriggerKnife tk;
-    
+    public TriggerKnife triggerKnife; // Renamed for clarity
     public float throwCooldown;
 
-    bool readyToThrow;
+    private bool readyToThrow = true;
+    private bool triggerPressed = false;
 
-    bool previousFrame;
-    bool triggerPressed = false;
-
-    private void Start()
-    {
-        tk.GetComponent<TriggerKnife>();
-    }
     private void Awake()
     {
-        readyToThrow = true;
-        tk.knifeContact = false;
+        // Ensure we have a valid triggerKnife reference
+        if (triggerKnife == null)
+        {
+            Debug.LogError("TriggerKnife reference is missing!");
+        }
     }
 
     private void Update()
     {
         CheckInput();
-        //MouseInput();
     }
+
     private void Throw()
     {
-        tk.heldKnife.transform.parent = null;
+        if (triggerKnife.heldKnife == null) return;
 
-        Rigidbody rb = tk.heldKnife.GetComponent<Rigidbody>();
+        // Detach knife from the parent
+        triggerKnife.heldKnife.transform.parent = null;
 
+        Rigidbody rb = triggerKnife.heldKnife.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            tk.heldKnife.GetComponent<Rigidbody>().isKinematic = false;
-        }        
+            rb.isKinematic = false; // Make sure the knife is not kinematic
+        }
 
-        tk.totalThrows--;
-        
+        triggerKnife.totalThrows--;
         readyToThrow = false;
 
-        Invoke(nameof(RemoveTrigger),throwCooldown);
+        StartCoroutine(ThrowCooldown());
+    }
 
-        tk.knifeContact = false;
-
-        Invoke(nameof(ResetThrow),throwCooldown);
+    private IEnumerator ThrowCooldown()
+    {
+        yield return new WaitForSeconds(throwCooldown);
+        ResetThrow();
     }
 
     private void ResetThrow()
     {
         readyToThrow = true;
+        if (triggerKnife.heldKnife != null)
+        {
+            triggerKnife.heldKnife.GetComponent<Collider>().isTrigger = false; // Make collider non-trigger
+        }
     }
 
-   void CheckInput()
-   {
-       var inputDevices = new List<InputDevice>();
-       InputDevices.GetDevices(inputDevices); 
-
-       foreach (var device in inputDevices)
-       {
-           
-           if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
-           {
-               bool triggerValue;
-
-               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
-               {
-                   triggerPressed = true;
-               }
-               if(tk.instan && !triggerPressed)
-                    {
-                        Throw();
-                        Debug.Log("SI");
-                    }
-                  
-           }
-       }
-   }
-    void RemoveTrigger()
-    {
-        tk.heldKnife.GetComponent<Collider>().isTrigger = false;
-    }
-
-    void TriggerPressed()
+    private void CheckInput()
     {
         var inputDevices = new List<InputDevice>();
         InputDevices.GetDevices(inputDevices);
@@ -100,16 +69,21 @@ public class Throwing : MonoBehaviour
         {
             if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
             {
-                bool triggerValue;
-
-                while (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue) { 
-
-
+                if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerValue))
+                {
+                    if (triggerValue && !triggerPressed && readyToThrow && triggerKnife.totalThrows > 0)
+                    {
+                        // Gatillo presionado por primera vez
+                        triggerPressed = true;
+                    }
+                    else if (!triggerValue && triggerPressed) // Gatillo soltado
+                    {
+                        Throw();
+                        Debug.Log("Knife thrown!");
+                        triggerPressed = false; // Resetea el estado del gatillo
                     }
                 }
             }
+        }
     }
 }
-
-  
-   

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4375,7 +4375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 1702796728}
-  tk: {fileID: 1702796730}
+  triggerKnife: {fileID: 1702796730}
   throwCooldown: 0.5
 --- !u!114 &1702796730
 MonoBehaviour:
@@ -4389,7 +4389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5459a23d2ce8748ae748fbc9fe1a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knifeContact: 0
   knife: {fileID: 6351899948035314824, guid: 918fec4d98f484d47ba93f7587573f2a, type: 3}
   heldKnife: {fileID: 0}
   Parent: {fileID: 1702796728}

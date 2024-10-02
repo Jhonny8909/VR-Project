@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerKnife : MonoBehaviour
 {
-    public bool knifeContact;
     public GameObject knife;
     [HideInInspector]
     public GameObject heldKnife;
@@ -33,7 +29,6 @@ public class TriggerKnife : MonoBehaviour
                 heldKnife.GetComponent<Rigidbody>().isKinematic = true;
                 heldKnife.transform.localPosition = Vector3.zero;
                 heldKnife.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-                knifeContact = true;
                 instan = true;
                 Debug.Log("KnifeCollider");
             }
