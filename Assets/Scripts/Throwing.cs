@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -6,19 +5,22 @@ using UnityEngine.XR;
 public class Throwing : MonoBehaviour
 {
     public Transform attackPoint;
-    public TriggerKnife triggerKnife; // Renamed for clarity
+    public TriggerKnife triggerKnife;
     public float throwCooldown;
+    public float throwSpeedMultiplier = 10f; // Multiplicador para ajustar la velocidad del lanzamiento
+    public float minThrowMovementThreshold = 0.1f; // Umbral mínimo de movimiento para lanzar
 
     private bool readyToThrow = true;
     private bool triggerPressed = false;
+    private Vector3 lastPosition;
 
     private void Awake()
     {
-        // Ensure we have a valid triggerKnife reference
         if (triggerKnife == null)
         {
             Debug.LogError("TriggerKnife reference is missing!");
         }
+        lastPosition = attackPoint.position; // Inicializar la última posición
     }
 
     private void Update()
@@ -30,22 +32,33 @@ public class Throwing : MonoBehaviour
     {
         if (triggerKnife.heldKnife == null) return;
 
-        // Detach knife from the parent
-        triggerKnife.heldKnife.transform.parent = null;
+        // Calcular la dirección del movimiento del brazo
+        Vector3 currentPosition = attackPoint.position;
+        Vector3 throwDirection = (currentPosition - lastPosition); // Dirección del movimiento
+        lastPosition = currentPosition; // Actualizar la última posición
 
-        Rigidbody rb = triggerKnife.heldKnife.GetComponent<Rigidbody>();
-        if (rb != null)
+        // Verificar si el movimiento es suficiente para lanzar
+        if (throwDirection.magnitude > minThrowMovementThreshold)
         {
-            rb.isKinematic = false; // Make sure the knife is not kinematic
+            Rigidbody rb = triggerKnife.heldKnife.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false; // Asegúrate de que el cuchillo no sea cinemático
+                rb.velocity = throwDirection.normalized * throwSpeedMultiplier; // Establecer la velocidad directamente
+            }
+
+            triggerKnife.maxKnives--;
+            readyToThrow = false;
+
+            StartCoroutine(ThrowCooldown());
         }
-
-        triggerKnife.totalThrows--;
-        readyToThrow = false;
-
-        StartCoroutine(ThrowCooldown());
+        else
+        {
+            Debug.Log("No se realizó un movimiento suficiente para lanzar.");
+        }
     }
 
-    private IEnumerator ThrowCooldown()
+    private IEnumerator<WaitForSeconds> ThrowCooldown()
     {
         yield return new WaitForSeconds(throwCooldown);
         ResetThrow();
@@ -54,10 +67,6 @@ public class Throwing : MonoBehaviour
     private void ResetThrow()
     {
         readyToThrow = true;
-        if (triggerKnife.heldKnife != null)
-        {
-            triggerKnife.heldKnife.GetComponent<Collider>().isTrigger = false; // Make collider non-trigger
-        }
     }
 
     private void CheckInput()
@@ -71,14 +80,13 @@ public class Throwing : MonoBehaviour
             {
                 if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerValue))
                 {
-                    if (triggerValue && !triggerPressed && readyToThrow && triggerKnife.totalThrows > 0)
+                    if (triggerValue && !triggerPressed && readyToThrow && triggerKnife.maxKnives > 0)
                     {
-                        // Gatillo presionado por primera vez
-                        triggerPressed = true;
+                        triggerPressed = true; // Gatillo presionado
                     }
                     else if (!triggerValue && triggerPressed) // Gatillo soltado
                     {
-                        Throw();
+                        Throw(); // Llama a la función Throw
                         Debug.Log("Knife thrown!");
                         triggerPressed = false; // Resetea el estado del gatillo
                     }
