@@ -3,21 +3,23 @@ using UnityEngine;
 public class TriggerKnife : MonoBehaviour
 {
     public GameObject knife; // Prefab del cuchillo
-    [HideInInspector]
-    public GameObject heldKnife; // Cuchillo actualmente sostenido
-    public Transform parent; // Padre al que se instanciara el cuchillo
-    public int maxKnives = 5; // Numero maximo de cuchillos que pueden ser instanciados
+    public Transform parent; // Padre al que se instanciará el cuchillo
+    public int maxKnives = 5; // Número máximo de cuchillos que pueden ser instanciados
     private int currentKnives = 0; // Contador de cuchillos instanciados
-    public bool istrown = false;
+
+    public GameObject heldKnife; // Cuchillo actualmente sostenido
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("KnifeSpace"))
         {
+            // Contar los cuchillos existentes en la escena
+            currentKnives = GameObject.FindGameObjectsWithTag("Knife").Length;
+
             if (currentKnives >= maxKnives)
             {
-                Debug.Log("Ya se han instanciado el n�mero m�ximo de cuchillos.");
-                return; // No hacer nada si se alcanzo el limite
+                Debug.Log("Ya se han instanciado el número máximo de cuchillos.");
+                return; // No hacer nada si se alcanzó el límite
             }
 
             if (heldKnife != null)
@@ -40,18 +42,15 @@ public class TriggerKnife : MonoBehaviour
             rb.isKinematic = true; // Hace que el cuchillo no se mueva al instante
         }
 
-        heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posici�n local
-        heldKnife.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f); // Ajusta la escala
-        currentKnives++; // Incrementa el contador de cuchillos
-        Debug.Log("Cuchillo instanciado en el espacio adecuado. Total de cuchillos: " + currentKnives);
+        heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posición local
+        Debug.Log("Cuchillo instanciado en el espacio adecuado. Total de cuchillos: " + (currentKnives + 1));
     }
 
     public void KnifeThrown()
     {
         if (heldKnife != null)
         {
-            currentKnives--;
-            istrown = true;
+            // Aquí podrías hacer cualquier limpieza necesaria
             heldKnife = null; // Resetea la referencia al cuchillo
         }
     }
