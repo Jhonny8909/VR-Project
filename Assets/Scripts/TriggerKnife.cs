@@ -14,7 +14,7 @@ public class TriggerKnife : MonoBehaviour
         
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         print("Trigger");
         if (other.CompareTag("KnifeSpace"))
@@ -30,7 +30,7 @@ public class TriggerKnife : MonoBehaviour
                 heldKnife.transform.localPosition = Vector3.zero;
                 heldKnife.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                 instan = true;
-                Debug.Log("KnifeCollider");
+                Debug.Log("Knife Spawneado");
             }
         }
     }
