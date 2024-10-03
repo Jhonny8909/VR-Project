@@ -5,9 +5,10 @@ public class TriggerKnife : MonoBehaviour
     public GameObject knife; // Prefab del cuchillo
     [HideInInspector]
     public GameObject heldKnife; // Cuchillo actualmente sostenido
-    public Transform parent; // Padre al que se instanciará el cuchillo
-    public int maxKnives = 5; // Número máximo de cuchillos que pueden ser instanciados
+    public Transform parent; // Padre al que se instanciara el cuchillo
+    public int maxKnives = 5; // Numero maximo de cuchillos que pueden ser instanciados
     private int currentKnives = 0; // Contador de cuchillos instanciados
+    public bool istrown = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,8 +16,8 @@ public class TriggerKnife : MonoBehaviour
         {
             if (currentKnives >= maxKnives)
             {
-                Debug.Log("Ya se han instanciado el número máximo de cuchillos.");
-                return; // No hacer nada si se alcanzó el límite
+                Debug.Log("Ya se han instanciado el nï¿½mero mï¿½ximo de cuchillos.");
+                return; // No hacer nada si se alcanzo el limite
             }
 
             if (heldKnife != null)
@@ -39,7 +40,7 @@ public class TriggerKnife : MonoBehaviour
             rb.isKinematic = true; // Hace que el cuchillo no se mueva al instante
         }
 
-        heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posición local
+        heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posiciï¿½n local
         heldKnife.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f); // Ajusta la escala
         currentKnives++; // Incrementa el contador de cuchillos
         Debug.Log("Cuchillo instanciado en el espacio adecuado. Total de cuchillos: " + currentKnives);
@@ -49,7 +50,8 @@ public class TriggerKnife : MonoBehaviour
     {
         if (heldKnife != null)
         {
-            currentKnives--; // Decrementa el contador al lanzar el cuchillo
+            currentKnives--;
+            istrown = true;
             heldKnife = null; // Resetea la referencia al cuchillo
         }
     }

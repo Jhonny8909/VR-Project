@@ -8,7 +8,7 @@ public class Throwing : MonoBehaviour
     public TriggerKnife triggerKnife;
     public float throwCooldown;
     public float throwSpeedMultiplier = 10f; // Multiplicador para ajustar la velocidad del lanzamiento
-    public float minThrowMovementThreshold = 0.1f; // Umbral m�nimo de movimiento para lanzar
+    public float minThrowMovementThreshold = 0.1f; // Umbral minimo de movimiento para lanzar
 
     private bool readyToThrow = true;
     private bool triggerPressed = false;
@@ -20,7 +20,7 @@ public class Throwing : MonoBehaviour
         {
             Debug.LogError("TriggerKnife reference is missing!");
         }
-        lastPosition = attackPoint.position; // Inicializar la �ltima posici�n
+        lastPosition = attackPoint.position; // Inicializar la ultima posicion
     }
 
     private void Update()
@@ -30,12 +30,12 @@ public class Throwing : MonoBehaviour
 
     private void Throw()
     {
-        if (triggerKnife.heldKnife == null) return;
+        if (triggerKnife.heldKnife == null || triggerKnife.istrown) return;
 
-        // Calcular la direcci�n del movimiento del brazo
+        // Calcular la direccion del movimiento del brazo
         Vector3 currentPosition = attackPoint.position;
-        Vector3 throwDirection = (currentPosition - lastPosition); // Direcci�n del movimiento
-        lastPosition = currentPosition; // Actualizar la �ltima posici�n
+        Vector3 throwDirection = (currentPosition - lastPosition); // Direccion del movimiento
+        lastPosition = currentPosition; // Actualizar la ultima posicion
 
         // Verificar si el movimiento es suficiente para lanzar
         if (throwDirection.magnitude > minThrowMovementThreshold)
@@ -44,18 +44,18 @@ public class Throwing : MonoBehaviour
             if (rb != null)
             {
                 triggerKnife.heldKnife.transform.parent = null;
-                rb.isKinematic = false; // Aseg�rate de que el cuchillo no sea cinem�tico
+                rb.isKinematic = false; // Asegurate de que el cuchillo no sea cinematico
                 rb.velocity = throwDirection.normalized * throwSpeedMultiplier; // Establecer la velocidad directamente
             }
-
-            triggerKnife.maxKnives--;
+            
             readyToThrow = false;
+            
 
             StartCoroutine(ThrowCooldown());
         }
         else
         {
-            Debug.Log("No se realiz� un movimiento suficiente para lanzar.");
+            Debug.Log("No se realizo un movimiento suficiente para lanzar.");
         }
     }
 
@@ -72,6 +72,7 @@ public class Throwing : MonoBehaviour
         if (triggerKnife.heldKnife != null)
         {
             triggerKnife.heldKnife.GetComponent<Collider>().isTrigger = false;
+            triggerKnife.KnifeThrown();
         }
     }
 
@@ -92,7 +93,7 @@ public class Throwing : MonoBehaviour
                     }
                     else if (!triggerValue && triggerPressed) // Gatillo soltado
                     {
-                        Throw(); // Llama a la funci�n Throw
+                        Throw(); // Llama a la funcion Throw
                         Debug.Log("Knife thrown!");
                         triggerPressed = false; // Resetea el estado del gatillo
                     }
