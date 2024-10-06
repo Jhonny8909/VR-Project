@@ -50,7 +50,6 @@ public class TriggerKnife : MonoBehaviour
     {
         if (heldKnife != null)
         {
-            // Aquí podrías hacer cualquier limpieza necesaria
             heldKnife = null; // Resetea la referencia al cuchillo
         }
     }
