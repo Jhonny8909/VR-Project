@@ -54,7 +54,7 @@ public class TurretAI : MonoBehaviour
     {
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (!vRInvisibility.IsInvisible)
+        if (vRInvisibility.IsInvisible == false)
         {
             if (distanceToPlayer <= detectionRange)
             {

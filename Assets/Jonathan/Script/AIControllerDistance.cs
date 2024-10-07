@@ -144,7 +144,7 @@ public class AIControllerDistance : MonoBehaviour
     {
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (!vRInvisibility.IsInvisible)
+        if (vRInvisibility.IsInvisible == false)
         {
             if (distanceToPlayer <= detectionRange)
             {
