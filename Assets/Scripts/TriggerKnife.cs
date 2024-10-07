@@ -39,7 +39,7 @@ public class TriggerKnife : MonoBehaviour
         Rigidbody rb = heldKnife.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.isKinematic = true; // Hace que el cuchillo no se mueva al instante
+            rb.useGravity =false;
         }
 
         heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posición local

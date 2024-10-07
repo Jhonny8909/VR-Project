@@ -33,28 +33,19 @@ public class Throwing : MonoBehaviour
         if (triggerKnife.heldKnife == null) return; // Verificar si el cuchillo esta en mano
 
         // Calcular la direccion del movimiento del brazo
-        Vector3 currentPosition = attackPoint.position;
-        Vector3 throwDirection = (currentPosition - lastPosition).normalized;
-        lastPosition = currentPosition;
+        //Vector3 currentPosition = attackPoint.position;
+        //Vector3 throwDirection = (currentPosition - lastPosition).normalized;
+        //lastPosition = currentPosition;
 
-        // Verificar si el movimiento es suficiente para lanzar
-        if (throwDirection.magnitude > minThrowMovementThreshold)
-        {
             Rigidbody rb = triggerKnife.heldKnife.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 triggerKnife.heldKnife.transform.parent = null;
-                rb.isKinematic = false;
-                rb.velocity = throwDirection * throwSpeedMultiplier;
+                rb.useGravity = true;
             }
 
             triggerKnife.KnifeThrown(); // Llama a KnifeThrown despues de lanzar
             Debug.Log("Cuchillo lanzado.");
-        }
-        else
-        {
-            Debug.Log("No se realizo un movimiento suficiente para lanzar.");
-        }
     }
 
 
