@@ -29,15 +29,16 @@ public class VRInvisibility : MonoBehaviour
             originalMaterial = playerRenderer.material; 
         }
 
-        controllerDevice = GetComponent<XRController>();
+        //controllerDevice = GetComponent<XRController>();
     }
 
     void Update()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame && !isInCooldown)
+        /*if (Keyboard.current.eKey.wasPressedThisFrame && !isInCooldown)
         {
             ActivateInvisibility();
         }
+
 
         if (controllerDevice != null)
         {
@@ -50,7 +51,9 @@ public class VRInvisibility : MonoBehaviour
         if (vrButtonAction.action != null && vrButtonAction.action.WasPressedThisFrame() && !isInCooldown)
         {
             ActivateInvisibility();
-        }
+        }*/
+
+        CheckGripButton();
     }
 
     void ActivateInvisibility()
@@ -90,5 +93,24 @@ public class VRInvisibility : MonoBehaviour
         yield return new WaitForSeconds(cooldownDuration);
         isInCooldown = false;
         Debug.Log("Cooldown terminado.");
+    }
+
+    void CheckGripButton()
+    {
+        var inputDevices = new List<UnityEngine.XR.InputDevice>();
+        InputDevices.GetDevices(inputDevices);
+        
+        foreach (var device in inputDevices)
+        {
+            if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
+            {
+                bool triggerValue;
+
+                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.gripButton, out triggerValue) && triggerValue && !isInCooldown)
+                {
+                    ActivateInvisibility();
+                }
+            }
+        }
     }
 }
