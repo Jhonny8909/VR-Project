@@ -9,6 +9,7 @@ TagManager:
   - KnifeSpace
   - Tp
   - Enemy
+  - Knife
   layers:
   - Default
   - TransparentFX

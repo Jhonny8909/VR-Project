@@ -1,42 +1,52 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerKnife : MonoBehaviour
 {
-    public bool knifeContact;
-    public GameObject knife;
-    [HideInInspector]
-    public GameObject heldKnife;
-    public Transform Parent;
-    public float totalThrows;
-    public bool instan;
+    public GameObject knife; // Prefab del cuchillo
+    public Transform parent; // Padre al que se instanciará el cuchillo
+    public int maxKnives = 5; // Número máximo de cuchillos que pueden ser instanciados
+    private int currentKnives = 0; // Contador de cuchillos instanciados
 
-    private void Awake()
-    {
-        
-    }
+    public GameObject heldKnife; // Cuchillo actualmente sostenido
 
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        print("Trigger");
         if (other.CompareTag("KnifeSpace"))
         {
-            if(heldKnife != null)
+            // Contar los cuchillos existentes en la escena
+            currentKnives = GameObject.FindGameObjectsWithTag("Knife").Length;
+
+            if (currentKnives >= maxKnives)
+            {
+                Debug.Log("Ya se han instanciado el número máximo de cuchillos.");
+                return; // No hacer nada si se alcanzó el límite
+            }
+
+            if (heldKnife != null)
             {
                 Debug.Log("Knife ya spawneado");
             }
             else
             {
-                heldKnife = Instantiate(knife, Parent);
-                heldKnife.GetComponent<Rigidbody>().isKinematic = true;
-                heldKnife.transform.localPosition = Vector3.zero;
-                heldKnife.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-                knifeContact = true;
-                instan = true;
-                Debug.Log("KnifeCollider");
+                InstantiateKnife();
             }
+        }
+    }
+
+    private void InstantiateKnife()
+    {
+        heldKnife = Instantiate(knife, parent);
+        Rigidbody rb = heldKnife.GetComponent<Rigidbody>();
+
+        heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posición local
+        Debug.Log("Cuchillo instanciado en el espacio adecuado. Total de cuchillos: " + (currentKnives + 1));
+    }
+
+    public void KnifeThrown()
+    {
+        if (heldKnife != null)
+        {
+            heldKnife = null; // Resetea la referencia al cuchillo
         }
     }
 }

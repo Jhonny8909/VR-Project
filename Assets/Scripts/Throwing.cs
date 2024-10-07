@@ -1,97 +1,72 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.XR;
-using System.Runtime.CompilerServices;
 
 public class Throwing : MonoBehaviour
 {
-    
     public Transform attackPoint;
-    
-    public TriggerKnife tk;
-    
+    public TriggerKnife triggerKnife;
     public float throwCooldown;
+    public float throwSpeedMultiplier = 10f; // Multiplicador para ajustar la velocidad del lanzamiento
+    public float minThrowMovementThreshold = 0.1f; // Umbral minimo de movimiento para lanzar
 
-    bool readyToThrow;
+    private bool readyToThrow = true;
+    private bool triggerPressed = false;
+    private Vector3 lastPosition;
 
-    bool previousFrame;
-    bool triggerPressed = false;
-
-    private void Start()
-    {
-        tk.GetComponent<TriggerKnife>();
-    }
     private void Awake()
     {
-        readyToThrow = true;
-        tk.knifeContact = false;
+        if (triggerKnife == null)
+        {
+            Debug.LogError("TriggerKnife reference is missing!");
+        }
+        lastPosition = attackPoint.position; // Inicializar la ultima posicion
     }
 
     private void Update()
     {
         CheckInput();
-        //MouseInput();
     }
+
     private void Throw()
     {
-        tk.heldKnife.transform.parent = null;
+        if (triggerKnife.heldKnife == null) return; // Verificar si el cuchillo esta en mano
 
-        Rigidbody rb = tk.heldKnife.GetComponent<Rigidbody>();
+        // Calcular la direccion del movimiento del brazo
+        //Vector3 currentPosition = attackPoint.position;
+        //Vector3 throwDirection = (currentPosition - lastPosition).normalized;
+        //lastPosition = currentPosition;
 
-        if (rb != null)
-        {
-            tk.heldKnife.GetComponent<Rigidbody>().isKinematic = false;
-        }        
+            Rigidbody rb = triggerKnife.heldKnife.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                triggerKnife.heldKnife.transform.parent = null;
+                rb.useGravity = true;
+            }
 
-        tk.totalThrows--;
-        
-        readyToThrow = false;
+            triggerKnife.KnifeThrown(); // Llama a KnifeThrown despues de lanzar
+            Debug.Log("Cuchillo lanzado.");
+    }
 
-        Invoke(nameof(RemoveTrigger),throwCooldown);
 
-        tk.knifeContact = false;
-
-        Invoke(nameof(ResetThrow),throwCooldown);
+    private IEnumerator<WaitForSeconds> ThrowCooldown()
+    {
+        yield return new WaitForSeconds(throwCooldown);
+        ResetThrow();
     }
 
     private void ResetThrow()
     {
         readyToThrow = true;
+
+        if (triggerKnife.heldKnife != null)
+        {
+            triggerKnife.heldKnife.GetComponent<Collider>().isTrigger = false;
+            triggerKnife.KnifeThrown();
+        }
     }
 
-   void CheckInput()
-   {
-       var inputDevices = new List<InputDevice>();
-       InputDevices.GetDevices(inputDevices); 
-
-       foreach (var device in inputDevices)
-       {
-           
-           if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
-           {
-               bool triggerValue;
-
-               if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue && tk.knifeContact && readyToThrow && tk.totalThrows > 0)
-               {
-                   triggerPressed = true;
-               }
-               if(tk.instan && !triggerPressed)
-                    {
-                        Throw();
-                        Debug.Log("SI");
-                    }
-                  
-           }
-       }
-   }
-    void RemoveTrigger()
-    {
-        tk.heldKnife.GetComponent<Collider>().isTrigger = false;
-    }
-
-    void TriggerPressed()
+    private void CheckInput()
     {
         var inputDevices = new List<InputDevice>();
         InputDevices.GetDevices(inputDevices);
@@ -100,16 +75,20 @@ public class Throwing : MonoBehaviour
         {
             if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
             {
-                bool triggerValue;
-
-                while (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue) { 
-
-
+                if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerValue))
+                {
+                    if (triggerValue && !triggerPressed && readyToThrow && triggerKnife.maxKnives > 0)
+                    {
+                        triggerPressed = true; // Gatillo presionado
+                    }
+                    else if (!triggerValue && triggerPressed) // Gatillo soltado
+                    {
+                        Throw(); // Llama a la funcion Throw
+                        Debug.Log("Knife thrown!");
+                        triggerPressed = false; // Resetea el estado del gatillo
                     }
                 }
             }
+        }
     }
 }
-
-  
-   

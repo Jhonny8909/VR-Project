@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3265,7 +3265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1392979675
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4375,8 +4375,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 1702796728}
-  tk: {fileID: 1702796730}
+  triggerKnife: {fileID: 1702796730}
   throwCooldown: 0.5
+  throwSpeedMultiplier: 10
+  minThrowMovementThreshold: 0.1
 --- !u!114 &1702796730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4389,12 +4391,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5459a23d2ce8748ae748fbc9fe1a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knifeContact: 0
   knife: {fileID: 6351899948035314824, guid: 918fec4d98f484d47ba93f7587573f2a, type: 3}
+  parent: {fileID: 1702796728}
+  maxKnives: 5
   heldKnife: {fileID: 0}
-  Parent: {fileID: 1702796728}
-  totalThrows: 10
-  instan: 0
 --- !u!120 &1702796731
 LineRenderer:
   serializedVersion: 2
@@ -4403,7 +4403,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702796725}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4521,7 +4521,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -4599,7 +4599,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702796725}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f8b0c77b1aa34744b3cf9d40a535bee, type: 3}
   m_Name: 
@@ -5213,7 +5213,7 @@ GameObject:
   - component: {fileID: 1989104248}
   m_Layer: 0
   m_Name: Trigger
-  m_TagString: Untagged
+  m_TagString: KnifeSpace
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5276,7 +5276,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
