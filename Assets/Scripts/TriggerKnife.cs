@@ -37,7 +37,10 @@ public class TriggerKnife : MonoBehaviour
     {
         heldKnife = Instantiate(knife, parent);
         Rigidbody rb = heldKnife.GetComponent<Rigidbody>();
-
+        if (rb != null)
+        {
+            rb.isKinematic = true; // Hace que el cuchillo no se mueva al instante
+        }
         heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posición local
         Debug.Log("Cuchillo instanciado en el espacio adecuado. Total de cuchillos: " + (currentKnives + 1));
     }
