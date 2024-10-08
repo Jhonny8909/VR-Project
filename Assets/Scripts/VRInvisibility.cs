@@ -7,27 +7,22 @@ using System.Collections.Generic;
 
 public class VRInvisibility : MonoBehaviour
 {
-    public float invisibilityDuration = 5f; 
-    public float cooldownDuration = 15f;    
-    public bool IsInvisible { get; private set; }  
-    private bool isInCooldown = false; 
+    public float invisibilityDuration = 5f;
+    public float cooldownDuration = 2f;
+    public bool IsInvisible;
+    private bool isInCooldown = false;
 
-    public InputActionProperty vrButtonAction;  
-    public Material invisibleMaterial; 
-    public Material originalMaterial; 
-    private Renderer playerRenderer;   
+    public InputActionProperty vrButtonAction;
+    public Material invisibleMaterial;
+    public Material originalMaterial;
+    private Renderer playerRenderer;
+    public MeshRenderer controlDerecho;
+    public MeshRenderer controlIzq;
 
-    private XRController controllerDevice;
+private XRController controllerDevice;
 
     void Start()
     {
-
-        playerRenderer = GetComponent<Renderer>();
-
-        if (playerRenderer != null)
-        {
-            originalMaterial = playerRenderer.material; 
-        }
 
         //controllerDevice = GetComponent<XRController>();
     }
@@ -67,21 +62,21 @@ public class VRInvisibility : MonoBehaviour
     {
         IsInvisible = true;
         Debug.Log("El jugador es invisible.");
-
-        if (playerRenderer != null)
-        {
-            playerRenderer.material = invisibleMaterial;
-        }
+        
+            
+            Debug.Log(("Inv"));
+            controlDerecho.material = invisibleMaterial;
+            controlIzq.material = invisibleMaterial;
 
         yield return new WaitForSeconds(invisibilityDuration);
 
         IsInvisible = false;
         Debug.Log("El jugador ya no es invisible.");
 
-        if (playerRenderer != null)
-        {
-            playerRenderer.material = originalMaterial;
-        }
+             Debug.Log("invnt");
+            controlDerecho.material = originalMaterial;
+            controlIzq.material = originalMaterial;
+        
 
         StartCoroutine(CooldownRoutine());
     }
