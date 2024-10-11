@@ -8,8 +8,7 @@ public class AIControllerMelee : MonoBehaviour
     {
         Idle,
         Alerted,
-        Chasing,
-        Attack
+        Chasing
     }
 
     public EnemyState currentState;
@@ -65,10 +64,6 @@ public class AIControllerMelee : MonoBehaviour
             case EnemyState.Chasing:
                 Chase();
                 break;
-
-            case EnemyState.Attack:
-                Attack();
-                break;
         }
     }
 
@@ -86,8 +81,6 @@ public class AIControllerMelee : MonoBehaviour
             case EnemyState.Idle:
                 agent.speed = patrolSpeed;
                 GoToNextPatrolPoint();
-                break;
-            case EnemyState.Attack:
                 break;
         }
     }
@@ -131,30 +124,17 @@ public class AIControllerMelee : MonoBehaviour
         Debug.Log("Enemy is chasing the player.");
         agent.SetDestination(player.position);
 
-        distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= stopDistance)
-        {
-            TransitionToState(EnemyState.Attack);
-        }
-        else if (!IsPlayerInSight())
+        if (!IsPlayerInSight())
         {
             TransitionToState(EnemyState.Idle);
         }
     }
 
-    void Attack()
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Enemy is attacking the player.");
-
-        agent.isStopped = true;
-
-        PerformAttack();
-
-        distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer > stopDistance)
+        if (collision.transform.CompareTag("Player"))
         {
-            agent.isStopped = false;
-            TransitionToState(EnemyState.Chasing);
+            PerformAttack();
         }
     }
 
