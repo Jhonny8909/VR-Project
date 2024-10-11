@@ -13,9 +13,9 @@ public class FeedBackDaño : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.collider.CompareTag("Weapon"))
+        if (other.CompareTag("Knife"))
         {
             StartCoroutine(damageflash());
 

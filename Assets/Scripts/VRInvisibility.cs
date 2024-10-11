@@ -101,7 +101,7 @@ private XRController controllerDevice;
             {
                 bool triggerValue;
 
-                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.gripButton, out triggerValue) && triggerValue && !isInCooldown)
+                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue && !isInCooldown)
                 {
                     ActivateInvisibility();
                 }

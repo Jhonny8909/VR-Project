@@ -1135,6 +1135,11 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!23 &469439073 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1642249051887541180, guid: 26c435b34c6347f4f878ee7f7f1ca15a, type: 3}
+  m_PrefabInstance: {fileID: 1702796724}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &518823819
 GameObject:
   m_ObjectHideFlags: 0
@@ -3423,6 +3428,7 @@ GameObject:
   - component: {fileID: 1418931095}
   - component: {fileID: 1418931097}
   - component: {fileID: 1418931096}
+  - component: {fileID: 1418931098}
   m_Layer: 0
   m_Name: DistanceEnemy
   m_TagString: Enemy
@@ -3568,6 +3574,21 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &1418931098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418931090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62a50a721c7b8d43b88cad3cf5414f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Originalcolor: {r: 1, g: 0, b: 0.82232666, a: 0}
+  Damagecolor: {r: 0.12958288, g: 1, b: 0, a: 0}
+  damageflashduration: 0.5
 --- !u!1 &1426277996
 GameObject:
   m_ObjectHideFlags: 0
@@ -3894,6 +3915,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2253194}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1635040611 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8377679358538230882, guid: 26c435b34c6347f4f878ee7f7f1ca15a, type: 3}
+  m_PrefabInstance: {fileID: 1702796724}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1645929110
 GameObject:
   m_ObjectHideFlags: 0
@@ -4041,7 +4067,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 747838188876849417, guid: 26c435b34c6347f4f878ee7f7f1ca15a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.212
       objectReference: {fileID: 0}
     - target: {fileID: 747838188876849417, guid: 26c435b34c6347f4f878ee7f7f1ca15a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4393,7 +4419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knife: {fileID: 6351899948035314824, guid: 918fec4d98f484d47ba93f7587573f2a, type: 3}
   parent: {fileID: 1702796728}
-  maxKnives: 5
+  maxKnives: 73
   heldKnife: {fileID: 0}
 --- !u!120 &1702796731
 LineRenderer:
@@ -4578,6 +4604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invisibilityDuration: 5
   cooldownDuration: 15
+  IsInvisible: 0
   vrButtonAction:
     m_UseReference: 0
     m_Action:
@@ -4592,6 +4619,8 @@ MonoBehaviour:
     m_Reference: {fileID: 0}
   invisibleMaterial: {fileID: 2100000, guid: 8c1dda39855406549805409d58452866, type: 2}
   originalMaterial: {fileID: 2100000, guid: bd7aac43db4426e4881313b5a7537b41, type: 2}
+  controlDerecho: {fileID: 469439073}
+  controlIzq: {fileID: 1635040611}
 --- !u!114 &1702796749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5277,7 +5306,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0

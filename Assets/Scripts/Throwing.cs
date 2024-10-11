@@ -12,7 +12,8 @@ public class Throwing : MonoBehaviour
 
     private bool readyToThrow = true;
     private bool triggerPressed = false;
-    private Vector3 lastPosition;
+    private Vector3 lastPosition, currentPosition, throwDirection;
+    
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class Throwing : MonoBehaviour
         {
             Debug.LogError("TriggerKnife reference is missing!");
         }
-        lastPosition = attackPoint.position; // Inicializar la ultima posicion
+        //lastPosition = attackPoint.position; // Inicializar la ultima posicion
     }
 
     private void Update()
@@ -28,23 +29,24 @@ public class Throwing : MonoBehaviour
         CheckInput();
     }
 
-    private void Throw()
+    private void Throw(Vector3 trueDirection)
     {
         if (triggerKnife.heldKnife == null) return; // Verificar si el cuchillo esta en mano
 
         //Calcular la direccion del movimiento del brazo
-        Vector3 currentPosition = attackPoint.position;
-        Vector3 throwDirection = (currentPosition - lastPosition).normalized;
-        lastPosition = currentPosition;
+        //trueDirection = attackPoint.transform.forward;
 
-        if (throwDirection.magnitude > minThrowMovementThreshold)
+
+        trueDirection = Camera.main.transform.forward;
+        
+        if (trueDirection.magnitude > minThrowMovementThreshold)
         {
             Rigidbody rb = triggerKnife.heldKnife.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 triggerKnife.heldKnife.transform.parent = null;
                 rb.isKinematic = false;
-                rb.velocity = throwDirection * throwSpeedMultiplier;
+                rb.velocity = trueDirection * throwSpeedMultiplier;
             }
 
             triggerKnife.KnifeThrown(); // Llama a KnifeThrown despues de lanzar
@@ -83,15 +85,20 @@ public class Throwing : MonoBehaviour
         {
             if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
             {
-                if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerValue))
+                if (device.TryGetFeatureValue(CommonUsages.gripButton, out bool triggerValue))
                 {
                     if (triggerValue && !triggerPressed && readyToThrow && triggerKnife.maxKnives > 0)
                     {
                         triggerPressed = true; // Gatillo presionado
+                        lastPosition = attackPoint.transform.position;
+                        //primer punto
                     }
                     else if (!triggerValue && triggerPressed) // Gatillo soltado
                     {
-                        Throw(); // Llama a la funcion Throw
+                        //segundo punto
+                        currentPosition = attackPoint.transform.position;
+                        throwDirection = (currentPosition - lastPosition).normalized;
+                        Throw(throwDirection); // Llama a la funcion Throw
                         Debug.Log("Knife thrown!");
                         triggerPressed = false; // Resetea el estado del gatillo
                     }

@@ -23,7 +23,7 @@ public class TriggerActivation : MonoBehaviour
             {
                 bool triggerValue;
 
-                if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerValue) && triggerValue)
+                if (device.TryGetFeatureValue(CommonUsages.gripButton, out triggerValue) && triggerValue)
                 {
                     this.GetComponent<Collider>().enabled = true;
 
