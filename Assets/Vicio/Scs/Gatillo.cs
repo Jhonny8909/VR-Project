@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -9,12 +8,14 @@ public class Gatillo : MonoBehaviour
     public GameObject player;
     public LineRenderer guide;
 
-    private bool _previousTrgifferValue = false;
+    private bool _previousTriggerValue = false;
     private bool _triggerReleased = false;
+
+    private Material purple;
 
     void Start()
     {
-        guide.enabled = false;
+        purple = GetComponent<LineRenderer>().material;
     }
 
     // Update is called once per frame
@@ -33,33 +34,44 @@ public class Gatillo : MonoBehaviour
             // Verifica que sea el control izquierdo quien realiza la accion
             if ((device.characteristics & InputDeviceCharacteristics.Left) == InputDeviceCharacteristics.Left)
             {
-                
+                guide.enabled = false;
+
                 bool currentTriggerValue; // Asigna el estado actual del gatillo
 
                 // Activa el raycast cuando se presiona el gatillo
                 if (device.TryGetFeatureValue(CommonUsages.triggerButton, out currentTriggerValue))
                 {
                     RaycastHit hit;
-                    bool hasHit = Physics.Raycast(head.transform.position,
-                        head.transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity); // guarda la inforacion de raycast
+                    bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
+                        head.transform.TransformDirection(Vector3.forward), out hit, 20); // guarda la inforacion de raycast
+                    
+                    guide.enabled = true;
+                    guide.SetPosition(0, player.transform.position + Vector3.up/2);
+                    guide.SetPosition(1, hasHit ? hit.point : head.transform.position + hit.transform.position);
                     
                     Vector3 ubi = new Vector3();
 
+                    if (hit.transform.CompareTag("Tp"))
+                    {
+                        purple.color = Color.blue;
+                    }
+                    else
+                    {
+                        purple.color = Color.red;
+                    }
+                    
                     if (hasHit)
                     {
-                        guide.enabled = true;
-                        guide.SetPosition(0, player.transform.position);
-                        guide.SetPosition(1, hasHit ? hit.point : head.transform.position + head.transform.TransformDirection(Vector3.forward) * 100);
 
                         Debug.Log("Rayito casto");
-
+                        
                         // Verifica si el gatillo fue soltado
-                        if (_previousTrgifferValue && !currentTriggerValue)
+                        if (_previousTriggerValue && !currentTriggerValue)
                         {
                             _triggerReleased = true;
                             Debug.Log("Gatillo soltado");
                             
-                            // Si se sielta el gatillo sobre un objeto con el Tag Tp se teletransporta
+                            // Si se suelta el gatillo sobre un objeto con el Tag Tp se teletransporta
                             if(_triggerReleased == true && hit.transform.CompareTag("Tp"))
                             {
                                 Debug.Log("Se solto sobre algo tepeable");
@@ -68,7 +80,7 @@ public class Gatillo : MonoBehaviour
                                     hit.transform.position.z);
                                 player.transform.position = new Vector3(ubi.x, ubi.y, ubi.z);
                             }
-                            else // Si el objeto no tiene el Tag, no hac nada
+                            else // Si el objeto no tiene el Tag, no hace nada
                             {
                                 Debug.Log("Imposible tepear");
                             }
@@ -79,14 +91,10 @@ public class Gatillo : MonoBehaviour
                             _triggerReleased = false;
                         }
                         
-                        _previousTrgifferValue = currentTriggerValue; // Resete el estado del gatillo
+                        _previousTriggerValue = currentTriggerValue; // Resete el estado del gatillo
 
                     }
                     
-                    else
-                    {
-                        guide.enabled = false;
-                    }
                 }
             }
         }
