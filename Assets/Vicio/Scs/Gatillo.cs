@@ -43,7 +43,7 @@ public class Gatillo : MonoBehaviour
                 {
                     RaycastHit hit;
                     bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
-                        head.transform.TransformDirection(Vector3.forward), out hit, 20); // guarda la inforacion de raycast
+                        head.transform.TransformDirection(Vector3.forward), out hit, 50); // guarda la inforacion de raycast
                     
                     guide.enabled = true;
                     guide.SetPosition(0, player.transform.position + Vector3.up/2);
