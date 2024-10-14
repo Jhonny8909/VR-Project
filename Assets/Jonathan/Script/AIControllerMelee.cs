@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class AIControllerMelee : MonoBehaviour
 {
+    bool dead;
     public enum EnemyState
     {
         Idle,
@@ -47,23 +48,26 @@ public class AIControllerMelee : MonoBehaviour
 
     void Update()
     {
-        switch (currentState)
+        if (!dead)
         {
-            case EnemyState.Idle:
-                Patrol();
-                if (IsPlayerInSight())
-                {
-                    currentState = EnemyState.Alerted;
-                }
-                break;
+            switch (currentState)
+            {
+                case EnemyState.Idle:
+                    Patrol();
+                    if (IsPlayerInSight())
+                    {
+                        currentState = EnemyState.Alerted;
+                    }
+                    break;
 
-            case EnemyState.Alerted:
-                Alerted();
-                break;
+                case EnemyState.Alerted:
+                    Alerted();
+                    break;
 
-            case EnemyState.Chasing:
-                Chase();
-                break;
+                case EnemyState.Chasing:
+                    Chase();
+                    break;
+            }
         }
     }
 
@@ -117,6 +121,7 @@ public class AIControllerMelee : MonoBehaviour
         if (collision.transform.CompareTag("Player"))
         {
             PerformAttack();
+            dead = true;
         }
     }
 
