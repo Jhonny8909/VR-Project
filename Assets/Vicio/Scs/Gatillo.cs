@@ -11,11 +11,11 @@ public class Gatillo : MonoBehaviour
     private bool _previousTriggerValue = false;
     private bool _triggerReleased = false;
 
-    private Material purple;
+    private Material _purple;
 
     void Start()
     {
-        purple = GetComponent<LineRenderer>().material;
+        _purple = GetComponent<LineRenderer>().material;
     }
 
     // Update is called once per frame
@@ -43,7 +43,7 @@ public class Gatillo : MonoBehaviour
                 {
                     RaycastHit hit;
                     bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
-                        head.transform.TransformDirection(Vector3.forward), out hit, 50); // guarda la inforacion de raycast
+                        head.transform.TransformDirection(Vector3.forward), out hit, 40); // guarda la inforacion de raycast
                     
                     guide.enabled = true;
                     guide.SetPosition(0, player.transform.position + Vector3.up/2);
@@ -53,11 +53,11 @@ public class Gatillo : MonoBehaviour
 
                     if (hit.transform.CompareTag("Tp"))
                     {
-                        purple.color = Color.blue;
+                        _purple.color = Color.blue;
                     }
                     else
                     {
-                        purple.color = Color.red;
+                        _purple.color = Color.red;
                     }
                     
                     if (hasHit)

@@ -141,7 +141,7 @@ public class AIControllerMelee : MonoBehaviour
     void PerformAttack()
     {
         Debug.Log("Enemy performs an attack!");
-        SceneManager.LoadScene("GrayBox2.0");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     bool IsPlayerInSight()
