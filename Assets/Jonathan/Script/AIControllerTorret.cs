@@ -40,7 +40,6 @@ public class TurretAI : MonoBehaviour
         if (IsPlayerInSight())
         {
             Debug.Log("Player detected, attempting to shoot!");
-            FireRaycast();
         }
     }
 
@@ -72,21 +71,6 @@ public class TurretAI : MonoBehaviour
             
         playerDetected = false;
         return false;
-    }
-
-    void FireRaycast()
-    {
-        RaycastHit hit;
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-
-        if (Physics.Raycast(transform.position, directionToPlayer, out hit, raycastRange, obstacleMask | playerMask))
-        {
-            if (hit.transform.CompareTag("Player"))
-            {
-                Debug.Log("Player hit by turret!");
-                KillPlayer();
-            }
-        }
     }
 
     void KillPlayer()

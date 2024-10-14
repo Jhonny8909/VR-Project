@@ -56,7 +56,7 @@ public class AIControllerDistance : MonoBehaviour
                     Patrol();
                     if (IsPlayerInSight())
                     {
-                        TransitionToState(EnemyState.Alerted);
+                        currentState = EnemyState.Alerted;
                     }
                     break;
 
@@ -72,22 +72,7 @@ public class AIControllerDistance : MonoBehaviour
         
     }
 
-    void TransitionToState(EnemyState newState)
-    {
-        currentState = newState;
-        switch (newState)
-        {
-            case EnemyState.Alerted:
-                agent.speed = alertSpeed;
-                break;
-            case EnemyState.Idle:
-                agent.speed = patrolSpeed;
-                GoToNextPatrolPoint();
-                break;
-            case EnemyState.Attack:
-                break;
-        }
-    }
+    
 
     void Patrol()
     {
@@ -115,11 +100,11 @@ public class AIControllerDistance : MonoBehaviour
         
         if (distanceToPlayer <= attackRange)
         {
-            TransitionToState(EnemyState.Attack);
+            currentState = EnemyState.Attack;
         }
         else if (!IsPlayerInSight())
         {
-            TransitionToState(EnemyState.Idle);
+            currentState = EnemyState.Idle;
         }
     }
 
@@ -134,7 +119,7 @@ public class AIControllerDistance : MonoBehaviour
         if (distanceToPlayer > attackRange)
         {
             agent.isStopped = false;
-            TransitionToState(EnemyState.Idle);
+            currentState = EnemyState.Idle;
         }
 
         

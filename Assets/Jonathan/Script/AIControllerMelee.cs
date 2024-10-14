@@ -53,7 +53,7 @@ public class AIControllerMelee : MonoBehaviour
                 Patrol();
                 if (IsPlayerInSight())
                 {
-                    TransitionToState(EnemyState.Alerted);
+                    currentState = EnemyState.Alerted;
                 }
                 break;
 
@@ -63,24 +63,6 @@ public class AIControllerMelee : MonoBehaviour
 
             case EnemyState.Chasing:
                 Chase();
-                break;
-        }
-    }
-
-    void TransitionToState(EnemyState newState)
-    {
-        currentState = newState;
-        switch (newState)
-        {
-            case EnemyState.Alerted:
-                agent.speed = alertSpeed;
-                break;
-            case EnemyState.Chasing:
-                agent.speed = chaseSpeed;
-                break;
-            case EnemyState.Idle:
-                agent.speed = patrolSpeed;
-                GoToNextPatrolPoint();
                 break;
         }
     }
@@ -111,11 +93,11 @@ public class AIControllerMelee : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.position) <= alertedRange)
         {
-            TransitionToState(EnemyState.Chasing);
+            currentState = EnemyState.Alerted;
         }
         else if (!IsPlayerInSight())
         {
-            TransitionToState(EnemyState.Idle);
+            currentState = EnemyState.Idle;
         }
     }
 
@@ -126,7 +108,7 @@ public class AIControllerMelee : MonoBehaviour
 
         if (!IsPlayerInSight())
         {
-            TransitionToState(EnemyState.Idle);
+            currentState = EnemyState.Idle;
         }
     }
 
