@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class AIControllerDistance : MonoBehaviour
 {
+    bool dead;
     public enum EnemyState
     {
         Idle,
@@ -46,24 +48,28 @@ public class AIControllerDistance : MonoBehaviour
     void Update()
     {
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        switch (currentState)
+        if(!dead)
         {
-            case EnemyState.Idle:
-                Patrol();
-                if (IsPlayerInSight())
-                {
-                    TransitionToState(EnemyState.Alerted);
-                }
-                break;
+            switch (currentState)
+            {
+                case EnemyState.Idle:
+                    Patrol();
+                    if (IsPlayerInSight())
+                    {
+                        TransitionToState(EnemyState.Alerted);
+                    }
+                    break;
 
-            case EnemyState.Alerted:
-                Alerted();
-                break;
+                case EnemyState.Alerted:
+                    Alerted();
+                    break;
 
-            case EnemyState.Attack:
-                Attack();
-                break;
+                case EnemyState.Attack:
+                    Attack();
+                    break;
+            }
         }
+        
     }
 
     void TransitionToState(EnemyState newState)
@@ -138,6 +144,7 @@ public class AIControllerDistance : MonoBehaviour
     {
         Debug.Log("Player has been killed by the enemy.");
         SceneManager.LoadScene("GrayBox2.0");
+        dead = true;
     }
 
     bool IsPlayerInSight()

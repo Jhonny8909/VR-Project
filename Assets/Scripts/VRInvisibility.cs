@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit; 
 using System.Collections;
 using UnityEngine.XR;
 using System.Collections.Generic;
@@ -18,8 +17,6 @@ public class VRInvisibility : MonoBehaviour
     private Renderer playerRenderer;
     public MeshRenderer controlDerecho;
     public MeshRenderer controlIzq;
-
-private XRController controllerDevice;
 
     void Start()
     {
