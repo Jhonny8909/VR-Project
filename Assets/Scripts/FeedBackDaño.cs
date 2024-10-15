@@ -13,16 +13,16 @@ public class FeedBackDaño : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Knife"))
         {
             StartCoroutine(damageflash());
 
         }
-    }
+    }*/
 
-    IEnumerator damageflash()
+    public IEnumerator damageflash()
     {
         GetComponent<MeshRenderer>().material.color=Damagecolor;
         yield return new WaitForSeconds(damageflashduration);

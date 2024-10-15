@@ -47,7 +47,7 @@ public class Gatillo : MonoBehaviour
                     
                     guide.enabled = true;
                     guide.SetPosition(0, player.transform.position + Vector3.up/2);
-                    if (hit != null)
+                    if (hasHit != null)
                     {
                         guide.SetPosition(1, hasHit ? hit.point : head.transform.position + hit.transform.position);
                     }

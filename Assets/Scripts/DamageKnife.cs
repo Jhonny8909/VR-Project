@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class DamageKnife : MonoBehaviour
 {
+    FeedBackDaño fdb;
     private void OnColliderEnter(Collider collision)
     {
         if (collision.CompareTag("Enemy"))
         {
-            Destroy(gameObject);
+           StartCoroutine(fdb.damageflash());
+           collision.gameObject.SetActive(false);
+           Destroy(this);
         }
     }
 }
