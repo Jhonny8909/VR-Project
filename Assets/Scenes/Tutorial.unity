@@ -345,7 +345,6 @@ GameObject:
   - component: {fileID: 379168413}
   - component: {fileID: 379168412}
   - component: {fileID: 379168411}
-  - component: {fileID: 379168410}
   - component: {fileID: 379168409}
   m_Layer: 0
   m_Name: Core
@@ -366,18 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e03b8d5fccde6b4e9392f8bc7a85ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &379168410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379168408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a012b51f59e64a42a6dd91322fa9b85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  NameScene: nivel2
 --- !u!65 &379168411
 BoxCollider:
   m_ObjectHideFlags: 0

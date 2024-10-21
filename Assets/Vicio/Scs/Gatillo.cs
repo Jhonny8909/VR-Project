@@ -47,7 +47,8 @@ public class Gatillo : MonoBehaviour
                     
                     guide.enabled = true;
                     guide.SetPosition(0, player.transform.position + Vector3.up/2);
-                    if (hasHit != null)
+
+                    if (hasHit)
                     {
                         guide.SetPosition(1, hasHit ? hit.point : head.transform.position + hit.transform.position);
                     }
@@ -96,6 +97,11 @@ public class Gatillo : MonoBehaviour
                         
                         _previousTriggerValue = currentTriggerValue; // Resete el estado del gatillo
 
+                    }
+
+                    if (device.TryGetFeatureValue(CommonUsages.primaryButton, out currentTriggerValue))
+                    {
+                        
                     }
                     
                 }

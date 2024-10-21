@@ -1,10 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class EndPoint : MonoBehaviour
 {
-    private void OnDisable()
+    public string NameScene;
+    private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene("nivel2");
+        other.CompareTag("Knife");
+        SceneManager.LoadScene(NameScene, LoadSceneMode.Single);
     }
 }

@@ -129,9 +129,9 @@ public class AIControllerDistance : MonoBehaviour
     {
         Debug.Log("Player has been killed by the enemy."); 
         
-        SceneManager.LoadScene("GrayBox2.0");
+        //SceneManager.LoadScene("GrayBox2.0");
         dead = true;
-       // SceneManager.LoadScene("GrayBox2.0");
+       SceneManager.LoadScene("Gray", LoadSceneMode.Single);
 
     }
 
