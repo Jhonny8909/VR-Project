@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TriggerKnife : MonoBehaviour
@@ -6,9 +7,17 @@ public class TriggerKnife : MonoBehaviour
     public Transform parent; // Padre al que se instanciará el cuchillo
     public int maxKnives = 5; // Número máximo de cuchillos que pueden ser instanciados
     private int currentKnives = 0; // Contador de cuchillos instanciados
+    [HideInInspector]
+    public int KnifesInBag;
+
+    private Reticula ret;
 
     public GameObject heldKnife; // Cuchillo actualmente sostenido
 
+    private void Start()
+    {
+        KnifesInBag = maxKnives;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("KnifeSpace"))
@@ -42,6 +51,7 @@ public class TriggerKnife : MonoBehaviour
             rb.isKinematic = true; // Hace que el cuchillo no se mueva al instante
         }
         heldKnife.transform.localPosition = Vector3.zero; // Ajusta la posición local
+        KnifesInBag--;
         Debug.Log("Cuchillo instanciado en el espacio adecuado. Total de cuchillos: " + (currentKnives + 1));
     }
 

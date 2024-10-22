@@ -31,11 +31,11 @@ public class Gatillo : MonoBehaviour
         
         foreach (var device in inputDevices)
         {
+            guide.enabled = false;
+            
             // Verifica que sea el control izquierdo quien realiza la accion
             if ((device.characteristics & InputDeviceCharacteristics.Left) == InputDeviceCharacteristics.Left)
             {
-                guide.enabled = false;
-
                 bool currentTriggerValue; // Asigna el estado actual del gatillo
 
                 // Activa el raycast cuando se presiona el gatillo
@@ -80,8 +80,8 @@ public class Gatillo : MonoBehaviour
                             {
                                 Debug.Log("Se solto sobre algo tepeable");
                                 
-                                ubi = new Vector3(hit.transform.position.x, hit.transform.position.y,
-                                    hit.transform.position.z);
+                                ubi = new Vector3(hit.point.x, hit.point.y,
+                                    hit.point.z);
                                 player.transform.position = new Vector3(ubi.x, ubi.y, ubi.z);
                             }
                             else // Si el objeto no tiene el Tag, no hace nada
