@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -658,7 +658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.2, y: -2.5}
+  m_AnchoredPosition: {x: -15.3, y: -2.5}
   m_SizeDelta: {x: 10.9034, y: 19.761}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &108027769
@@ -1649,6 +1649,7 @@ MonoBehaviour:
   Tk: {fileID: 6312952}
   NumeroDeCuchillos: {fileID: 108027769}
   NumeroDeShots: {fileID: 1639269256}
+  InvisibilitySlider: {fileID: 1777569896}
   ContadorKnifes: 0
 --- !u!114 &579946416
 MonoBehaviour:
@@ -2982,7 +2983,7 @@ GameObject:
   - component: {fileID: 1086731117}
   - component: {fileID: 1086731116}
   m_Layer: 6
-  m_Name: Image (1)
+  m_Name: Tp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2997,14 +2998,14 @@ RectTransform:
   m_GameObject: {fileID: 1086731114}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7425, y: 1.7425, z: 1.7425}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 579946414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10}
+  m_AnchoredPosition: {x: 0, y: 15}
   m_SizeDelta: {x: 19.6747, y: 9.5214}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1086731116
@@ -4615,6 +4616,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4268903366134156710, guid: 3e837e01b63b589428401f47ce405f57, type: 3}
+      propertyPath: cooldownDuration
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7496362305194350811, guid: 3e837e01b63b589428401f47ce405f57, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -4759,7 +4764,7 @@ GameObject:
   - component: {fileID: 1777569897}
   - component: {fileID: 1777569896}
   m_Layer: 6
-  m_Name: Image
+  m_Name: Invisibility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4774,14 +4779,14 @@ RectTransform:
   m_GameObject: {fileID: 1777569894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7425, y: 1.7425, z: 1.7425}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 579946414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 19.6747, y: 9.5214}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1777569896
@@ -4809,7 +4814,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.98
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

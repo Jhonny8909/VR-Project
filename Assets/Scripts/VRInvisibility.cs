@@ -7,9 +7,9 @@ using System.Collections.Generic;
 public class VRInvisibility : MonoBehaviour
 {
     public float invisibilityDuration = 5f;
-    public float cooldownDuration = 2f;
+    public float cooldownDuration = 10f;
     public bool IsInvisible;
-    private bool isInCooldown = false;
+    public bool isInCooldown = false;
 
     public InputActionProperty vrButtonAction;
     public Material invisibleMaterial;
@@ -18,41 +18,22 @@ public class VRInvisibility : MonoBehaviour
     public MeshRenderer controlDerecho;
     public MeshRenderer controlIzq;
 
-    void Start()
-    {
-
-        //controllerDevice = GetComponent<XRController>();
-    }
+    public float elapsedTimeInvisibility;
 
     void Update()
     {
-        /*if (Keyboard.current.eKey.wasPressedThisFrame && !isInCooldown)
-        {
-            ActivateInvisibility();
-        }
-
-
-        if (controllerDevice != null)
-        {
-            if (controllerDevice.inputDevice.TryGetFeatureValue(UnityEngine.XR.CommonUsages.gripButton, out bool triggerButtonPressed) && triggerButtonPressed && !isInCooldown)
-            {
-                ActivateInvisibility();
-            }
-        }
-
-        if (vrButtonAction.action != null && vrButtonAction.action.WasPressedThisFrame() && !isInCooldown)
-        {
-            ActivateInvisibility();
-        }*/
-
+        elapsedTimeInvisibility += Time.deltaTime;
         CheckGripButton();
     }
 
     void ActivateInvisibility()
     {
-        if (IsInvisible || isInCooldown) return;
+        if (IsInvisible) return;
 
-        StartCoroutine(InvisibilityRoutine());
+        if (elapsedTimeInvisibility > cooldownDuration)
+        {
+            StartCoroutine(InvisibilityRoutine());
+        }   
     }
 
     private IEnumerator InvisibilityRoutine()
@@ -75,18 +56,8 @@ public class VRInvisibility : MonoBehaviour
             controlIzq.material = originalMaterial;
         
 
-        StartCoroutine(CooldownRoutine());
     }
-
-    private IEnumerator CooldownRoutine()
-    {
-        isInCooldown = true;
-        Debug.Log("Cooldown iniciado.");
-        yield return new WaitForSeconds(cooldownDuration);
-        isInCooldown = false;
-        Debug.Log("Cooldown terminado.");
-    }
-
+     
     void CheckGripButton()
     {
         var inputDevices = new List<UnityEngine.XR.InputDevice>();
@@ -98,7 +69,7 @@ public class VRInvisibility : MonoBehaviour
             {
                 bool triggerValue;
 
-                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue && !isInCooldown)
+                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue)
                 {
                     ActivateInvisibility();
                 }
