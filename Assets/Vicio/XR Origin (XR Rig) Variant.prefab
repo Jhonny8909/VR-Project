@@ -3093,6 +3093,7 @@ MonoBehaviour:
   knife: {fileID: 6351899948035314824, guid: 918fec4d98f484d47ba93f7587573f2a, type: 3}
   parent: {fileID: 2698687317003905782}
   maxKnives: 73
+  KnifesInBag: 0
   heldKnife: {fileID: 0}
 --- !u!65 &4659944228877606125
 BoxCollider:
@@ -6399,6 +6400,7 @@ MonoBehaviour:
   invisibilityDuration: 5
   cooldownDuration: 15
   IsInvisible: 0
+  isInCooldown: 0
   vrButtonAction:
     m_UseReference: 0
     m_Action:
@@ -6415,6 +6417,7 @@ MonoBehaviour:
   originalMaterial: {fileID: 2100000, guid: bd7aac43db4426e4881313b5a7537b41, type: 2}
   controlDerecho: {fileID: 8332752961167638015}
   controlIzq: {fileID: 3296293752238705660}
+  elapsedTimeInvisibility: 0
 --- !u!114 &2873006503489809063
 MonoBehaviour:
   m_ObjectHideFlags: 0

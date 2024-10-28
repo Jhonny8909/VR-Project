@@ -22,7 +22,7 @@ public class VRInvisibility : MonoBehaviour
 
     void Update()
     {
-        elapsedTimeInvisibility += Time.deltaTime;
+        elapsedTimeInvisibility += (Time.deltaTime / 14);
         CheckGripButton();
     }
 
