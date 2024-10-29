@@ -67,13 +67,13 @@ public class VRInvisibility : MonoBehaviour
         {
             if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
             {
-                bool triggerValue;
-                Debug.Log("Entro");
-
-                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue))
+                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out bool triggerValue))
                 {
-                    ActivateInvisibility();
-                    Debug.Log("Se activa la invisibilidad");
+                    if (triggerValue)
+                    {
+                        ActivateInvisibility();
+                        Debug.Log("Se activa la invisibilidad");
+                    }
                 }
             }
         }
