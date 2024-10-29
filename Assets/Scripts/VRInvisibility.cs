@@ -70,7 +70,7 @@ public class VRInvisibility : MonoBehaviour
                 bool triggerValue;
                 Debug.Log("Entro");
 
-                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue)
+                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue))
                 {
                     ActivateInvisibility();
                     Debug.Log("Se activa la invisibilidad");
