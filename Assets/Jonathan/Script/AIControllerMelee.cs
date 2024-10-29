@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class AIControllerMelee : MonoBehaviour
 {
     bool dead;
+
+    GameManager gameManager;
     public enum EnemyState
     {
         Idle,
@@ -44,6 +46,8 @@ public class AIControllerMelee : MonoBehaviour
         {
             GoToNextPatrolPoint();
         }
+
+        gameManager = GetComponent<GameManager>();
     }
 
     void Update()
@@ -86,7 +90,7 @@ public class AIControllerMelee : MonoBehaviour
     {
         if (patrolPoints.Length > 0)
         {
-            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position * gameManager.GameTime);
         }
     }
 
@@ -108,7 +112,7 @@ public class AIControllerMelee : MonoBehaviour
     void Chase()
     {
         Debug.Log("Enemy is chasing the player.");
-        agent.SetDestination(player.position);
+        agent.SetDestination(player.position * gameManager.GameTime);
 
         if (!IsPlayerInSight())
         {

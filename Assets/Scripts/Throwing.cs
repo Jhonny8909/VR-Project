@@ -13,6 +13,8 @@ public class Throwing : MonoBehaviour
     private bool readyToThrow = true;
     private bool triggerPressed = false;
     private Vector3 lastPosition, currentPosition, throwDirection;
+
+    private GameManager gameManager;
     
 
     private void Awake()
@@ -22,6 +24,11 @@ public class Throwing : MonoBehaviour
             Debug.LogError("TriggerKnife reference is missing!");
         }
         //lastPosition = attackPoint.position; // Inicializar la ultima posicion
+    }
+
+    private void Start()
+    {
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     private void Update()
@@ -46,7 +53,7 @@ public class Throwing : MonoBehaviour
             {
                 triggerKnife.heldKnife.transform.parent = null;
                 rb.isKinematic = false;
-                rb.velocity = trueDirection * throwSpeedMultiplier;
+                rb.velocity = trueDirection * throwSpeedMultiplier * gameManager.GameTime;
             }
 
             triggerKnife.KnifeThrown(); // Llama a KnifeThrown despues de lanzar

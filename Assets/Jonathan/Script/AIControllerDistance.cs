@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class AIControllerDistance : MonoBehaviour
 {
     bool dead;
+    GameManager gameManager;
     public enum EnemyState
     {
         Idle,
@@ -38,6 +39,7 @@ public class AIControllerDistance : MonoBehaviour
         currentState = EnemyState.Idle;
         agent = GetComponent<NavMeshAgent>();
         vRInvisibility = FindObjectOfType<VRInvisibility>();
+        gameManager = FindAnyObjectByType<GameManager>();
 
         if (patrolPoints.Length > 0)
         {
@@ -89,7 +91,7 @@ public class AIControllerDistance : MonoBehaviour
     {
         if (patrolPoints.Length > 0)
         {
-            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position * gameManager.GameTime);
         }
     }
 
