@@ -8,8 +8,7 @@ public class VRInvisibility : MonoBehaviour
 {
     public float invisibilityDuration = 5f;
     public float cooldownDuration = 10f;
-    public bool IsInvisible;
-    public bool isInCooldown = false;
+    public bool IsInvisible = false;
 
     public InputActionProperty vrButtonAction;
     public Material invisibleMaterial;
@@ -34,7 +33,7 @@ public class VRInvisibility : MonoBehaviour
         Debug.Log("cooldown " + cooldownDuration);
         //if (IsInvisible) return;
 
-        if (elapsedTimeInvisibility > cooldownDuration)
+        if (elapsedTimeInvisibility > cooldownDuration && IsInvisible == false)
         {
             StartCoroutine(InvisibilityRoutine());
         }   
