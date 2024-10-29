@@ -28,8 +28,9 @@ public class VRInvisibility : MonoBehaviour
 
     void ActivateInvisibility()
     {
-        Debug.Log("Entro");
-        if (IsInvisible) return;
+        Debug.Log(elapsedTimeInvisibility);
+        Debug.Log(cooldownDuration);
+        //if (IsInvisible) return;
 
         if (elapsedTimeInvisibility > cooldownDuration)
         {
