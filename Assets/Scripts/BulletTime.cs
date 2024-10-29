@@ -20,7 +20,7 @@ public class BulletTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckTime();
+        CheckTime(); 
     }
 
     public static event Action<float> TimeSlow;
