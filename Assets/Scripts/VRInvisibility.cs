@@ -58,6 +58,8 @@ public class VRInvisibility : MonoBehaviour
              Debug.Log("invnt");
             controlDerecho.material = originalMaterial;
             controlIzq.material = originalMaterial;
+        elapsedTimeInvisibility = 0;
+        elapsedTimeInvisibilitySlider = 0;
 
     }
 
