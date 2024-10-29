@@ -3,12 +3,14 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.XR;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class VRInvisibility : MonoBehaviour
 {
     public float invisibilityDuration = 5f;
     public float cooldownDuration = 10f;
     public bool IsInvisible = false;
+    public Image InvisibilitySlider;
 
     public InputActionProperty vrButtonAction;
     public Material invisibleMaterial;
@@ -18,11 +20,13 @@ public class VRInvisibility : MonoBehaviour
     public MeshRenderer controlIzq;
 
     public float elapsedTimeInvisibility;
+    public float elapsedTimeInvisibilityDuration = 1f;
     public float elapsedTimeInvisibilitySlider;
 
     void Update()
     {
         elapsedTimeInvisibility += Time.deltaTime;
+        elapsedTimeInvisibilityDuration -= Time.deltaTime / 4;
         elapsedTimeInvisibilitySlider += Time.deltaTime / 14;
         CheckGripButton();
     }
@@ -51,15 +55,17 @@ public class VRInvisibility : MonoBehaviour
 
         yield return new WaitForSeconds(invisibilityDuration);
 
-        IsInvisible = false;
-        Debug.Log("El jugador ya no es invisible.");
+        if (elapsedTimeInvisibilityDuration < invisibilityDuration)
+        {
+            IsInvisible = false;
+            Debug.Log("El jugador ya no es invisible.");
 
-             Debug.Log("invnt");
+            Debug.Log("invnt");
             controlDerecho.material = originalMaterial;
             controlIzq.material = originalMaterial;
-        elapsedTimeInvisibility = 0;
-        elapsedTimeInvisibilitySlider = 0;
-
+            elapsedTimeInvisibility = 0;
+            elapsedTimeInvisibilitySlider = 0;
+        }
     }
 
      
@@ -80,6 +86,21 @@ public class VRInvisibility : MonoBehaviour
                         Debug.Log("Se activa la invisibilidad");
                     }
                 }
+            }
+        }
+    }
+
+    void UpdateInvisibilityCooldown()
+    {
+        if (InvisibilitySlider != null)
+        {
+            if(IsInvisible == false)
+            {
+                InvisibilitySlider.fillAmount = elapsedTimeInvisibilitySlider;
+            }
+            if (IsInvisible == true)
+            {
+                InvisibilitySlider.fillAmount = invisibilityDuration;
             }
         }
     }
