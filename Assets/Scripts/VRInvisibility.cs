@@ -28,7 +28,7 @@ public class VRInvisibility : MonoBehaviour
 
     void ActivateInvisibility()
     {
-        if (IsInvisible || isInCooldown) return;
+        if (IsInvisible) return;
 
         if (elapsedTimeInvisibility > cooldownDuration)
         {
@@ -54,18 +54,9 @@ public class VRInvisibility : MonoBehaviour
              Debug.Log("invnt");
             controlDerecho.material = originalMaterial;
             controlIzq.material = originalMaterial;
-            StartCoroutine(CooldownRoutine());
 
     }
-    
-    private IEnumerator CooldownRoutine()
-    {
-        isInCooldown = true;
-        Debug.Log("Cooldown iniciado.");
-        yield return new WaitForSeconds(cooldownDuration);
-        isInCooldown = false;
-        Debug.Log("Cooldown terminado.");
-    }
+
      
     void CheckGripButton()
     {
@@ -77,10 +68,12 @@ public class VRInvisibility : MonoBehaviour
             if ((device.characteristics & InputDeviceCharacteristics.Right) == InputDeviceCharacteristics.Right)
             {
                 bool triggerValue;
+                Debug.Log("Entro");
 
-                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue && !isInCooldown)
+                if (device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerValue) && triggerValue)
                 {
                     ActivateInvisibility();
+                    Debug.Log("Se activa la invisibilidad");
                 }
             }
         }
