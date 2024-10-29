@@ -6433,6 +6433,7 @@ MonoBehaviour:
   head: {fileID: 7103293573638067935}
   player: {fileID: 7737115103829027545}
   guide: {fileID: 6515022177755507915}
+  _purple: {fileID: 0}
 --- !u!1 &7980342806962560017
 GameObject:
   m_ObjectHideFlags: 0

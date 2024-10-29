@@ -11,7 +11,7 @@ public class Gatillo : MonoBehaviour
     private bool _previousTriggerValue = false;
     private bool _triggerReleased = false;
 
-    private Material _purple;
+    public Material _purple;
 
     void Start()
     {
@@ -54,7 +54,7 @@ public class Gatillo : MonoBehaviour
                     }
                     
                     Vector3 ubi = new Vector3();
-
+/*
                     if (hit.transform.CompareTag("Tp"))
                     {
                         _purple.color = Color.blue;
@@ -63,7 +63,8 @@ public class Gatillo : MonoBehaviour
                     {
                         _purple.color = Color.red;
                     }
-                    
+                    */
+
                     if (hasHit)
                     {
 
