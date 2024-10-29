@@ -1,23 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR;
 
 public class Gatillo : MonoBehaviour
 {
     public GameObject head;
     public GameObject player;
-    public LineRenderer guide;
 
     private bool _previousTriggerValue = false;
     private bool _triggerReleased = false;
 
-    public Material _purple;
-
-    void Start()
-    {
-        _purple = GetComponent<LineRenderer>().material;
-    }
-
+    public Image mira1;
+    public Image mira2;
+    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -31,7 +27,7 @@ public class Gatillo : MonoBehaviour
         
         foreach (var device in inputDevices)
         {
-            guide.enabled = false;
+            
             
             // Verifica que sea el control izquierdo quien realiza la accion
             if ((device.characteristics & InputDeviceCharacteristics.Left) == InputDeviceCharacteristics.Left)
@@ -45,25 +41,22 @@ public class Gatillo : MonoBehaviour
                     bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
                         head.transform.TransformDirection(Vector3.forward), out hit, 40); // guarda la inforacion de raycast
                     
-                    guide.enabled = true;
-                    guide.SetPosition(0, player.transform.position + Vector3.up/2);
-
+                    Vector3 ubi = new Vector3();
                     if (hasHit)
                     {
-                        guide.SetPosition(1, hasHit ? hit.point : head.transform.position + hit.transform.position);
+                        if (hit.transform.CompareTag("Tp"))
+                        {
+                            this.mira1.GetComponent<Image>().enabled = true;
+                            this.mira2.GetComponent<Image>().enabled = false;
+                        }
+                        else
+                        {
+                            this.mira1.GetComponent<Image>().enabled = false;
+                            this.mira2.GetComponent<Image>().enabled = true;
+                        } 
                     }
                     
-                    Vector3 ubi = new Vector3();
-/*
-                    if (hit.transform.CompareTag("Tp"))
-                    {
-                        _purple.color = Color.blue;
-                    }
-                    else
-                    {
-                        _purple.color = Color.red;
-                    }
-                    */
+                    
 
                     if (hasHit)
                     {
