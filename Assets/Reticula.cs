@@ -38,7 +38,7 @@ public class Reticula : MonoBehaviour
     {
         if (InvisibilitySlider != null)
         {
-            InvisibilitySlider.fillAmount = vrIn.elapsedTimeInvisibility;
+            InvisibilitySlider.fillAmount = vrIn.elapsedTimeInvisibilitySlider;
         }
     }
 }

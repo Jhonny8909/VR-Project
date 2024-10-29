@@ -19,10 +19,12 @@ public class VRInvisibility : MonoBehaviour
     public MeshRenderer controlIzq;
 
     public float elapsedTimeInvisibility;
+    public float elapsedTimeInvisibilitySlider;
 
     void Update()
     {
-        elapsedTimeInvisibility += (Time.deltaTime / 14);
+        elapsedTimeInvisibility += Time.deltaTime;
+        elapsedTimeInvisibilitySlider += Time.deltaTime / 14;
         CheckGripButton();
     }
 
