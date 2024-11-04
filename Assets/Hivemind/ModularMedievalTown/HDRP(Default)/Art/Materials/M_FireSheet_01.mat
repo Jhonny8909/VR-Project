@@ -243,7 +243,7 @@ Material:
     - Vector1_10fc8cdd60f54c029cac8767eef0f2fa: 1
     - Vector1_119DBA34: 1
     - Vector1_1ecf8adf107543b697e04962611a6572: 1
-    - Vector1_2ac559e28a204783a17ce5231b490ebd: 0.1
+    - Vector1_2ac559e28a204783a17ce5231b490ebd: 0.5
     - Vector1_3d93f9a0aa3c4be2ba3dec68934e9a7e: 1
     - Vector1_434dbec5668f4b5a8f898305702320fc: 10.63
     - Vector1_4B28F8D1: 1
@@ -414,7 +414,7 @@ Material:
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _OpacityColor: {r: 1, g: 1, b: 1, a: 0.8}
+    - _OpacityColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
