@@ -34,7 +34,7 @@ public class BulletTime : MonoBehaviour
         {
             if ((device.characteristics & InputDeviceCharacteristics.Left) == InputDeviceCharacteristics.Left)
             {
-                if (device.TryGetFeatureValue(CommonUsages.gripButton, out bool triggerValue) && BulletTimeQuantity < 0)
+                if (device.TryGetFeatureValue(CommonUsages.gripButton, out bool triggerValue) && BulletTimeQuantity > 0)
                 {
                     TimeSlow?.Invoke(0.1f);
                     BulletTimeQuantity--;

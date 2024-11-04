@@ -21,8 +21,7 @@ public class Reticula : MonoBehaviour
     void Update()
     {
         ContadorKnifes = Tk.KnifesInBag;
-        ActualizarNumero();
-        UpdateInvisibilityCooldown();  
+        ActualizarNumero();  
     }
 
     void ActualizarNumero()
