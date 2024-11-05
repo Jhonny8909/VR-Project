@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1124,6 +1124,70 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &326849459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 326849461}
+  - component: {fileID: 326849460}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &326849460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326849459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1d9ce1456e17f4a955a53d5726de1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knifeDraw: {fileID: 8300000, guid: 43ce4b7c9ab1585498096a2f7a18db41, type: 3}
+  knifeAim: {fileID: 0}
+  knifeThrow: {fileID: 8300000, guid: b2a5cad7f3c9f6941b29c66d224f19a8, type: 3}
+  knifeHit: {fileID: 0}
+  playerRespawn: {fileID: 0}
+  playerDeath: {fileID: 8300000, guid: 04e281fa30e93e04487c321e60ccfd37, type: 3}
+  playerWalk: {fileID: 8300000, guid: c5aa74bf238535847b8de670dffcd86e, type: 3}
+  teleportAim: {fileID: 0}
+  teleportLaunch: {fileID: 0}
+  teleportReload: {fileID: 0}
+  teleportHit: {fileID: 0}
+  invisibilityOn: {fileID: 0}
+  invisibilityActive: {fileID: 0}
+  invisibilityOff: {fileID: 0}
+  invisibilityReload: {fileID: 0}
+  enemyWalk: {fileID: 0}
+  enemyAttack: {fileID: 0}
+  enemyHitPlayer: {fileID: 0}
+  enemyDetectPlayer: {fileID: 8300000, guid: 06d9a84474c9f434ca8333fa3de7eef1, type: 3}
+  backgroundMusic: {fileID: 0}
+--- !u!4 &326849461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326849459}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &412573092
 GameObject:
   m_ObjectHideFlags: 0
@@ -5887,3 +5951,4 @@ SceneRoots:
   - {fileID: 1744440896}
   - {fileID: 1747006649}
   - {fileID: 2100971806}
+  - {fileID: 326849461}
