@@ -1,27 +1,26 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR;
 
 public class Gatillo : MonoBehaviour
 {
     public GameObject head;
     public GameObject player;
-    public LineRenderer guide;
+    
+    private bool previousTriggerValue;
+    private bool triggerReleased;
+    public Vector3 grnd;
 
-    private bool _previousTriggerValue = false;
-    private bool _triggerReleased = false;
-
-    public Material _purple;
-
-    void Start()
-    {
-        _purple = GetComponent<LineRenderer>().material;
-    }
+    public Image mira1;
+    public Image mira2;
 
     // Update is called once per frame
     void FixedUpdate()
     {
         CheckInput();
+        ReticuleTeleportation();
     }
 
     void CheckInput()
@@ -31,8 +30,6 @@ public class Gatillo : MonoBehaviour
         
         foreach (var device in inputDevices)
         {
-            guide.enabled = false;
-            
             // Verifica que sea el control izquierdo quien realiza la accion
             if ((device.characteristics & InputDeviceCharacteristics.Left) == InputDeviceCharacteristics.Left)
             {
@@ -45,58 +42,46 @@ public class Gatillo : MonoBehaviour
                     bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
                         head.transform.TransformDirection(Vector3.forward), out hit, 40); // guarda la inforacion de raycast
                     
-                    guide.enabled = true;
-                    guide.SetPosition(0, player.transform.position + Vector3.up/2);
-
-                    if (hasHit)
-                    {
-                        guide.SetPosition(1, hasHit ? hit.point : head.transform.position + hit.transform.position);
-                    }
+                    Vector3 groundUbi = new Vector3();
                     
-                    Vector3 ubi = new Vector3();
-/*
-                    if (hit.transform.CompareTag("Tp"))
-                    {
-                        _purple.color = Color.blue;
-                    }
-                    else
-                    {
-                        _purple.color = Color.red;
-                    }
-                    */
-
                     if (hasHit)
                     {
-
                         Debug.Log("Rayito casto");
                         
                         // Verifica si el gatillo fue soltado
-                        if (_previousTriggerValue && !currentTriggerValue)
+                        if (previousTriggerValue && !currentTriggerValue)
                         {
-                            _triggerReleased = true;
+                            Vector3 ubi;
+                            triggerReleased = true;
                             Debug.Log("Gatillo soltado");
                             
                             // Si se suelta el gatillo sobre un objeto con el Tag Tp se teletransporta
-                            if(_triggerReleased == true && hit.transform.CompareTag("Tp"))
+                            if(triggerReleased == true && hit.transform.CompareTag("Tp"))
                             {
                                 Debug.Log("Se solto sobre algo tepeable");
                                 
-                                ubi = new Vector3(hit.point.x, hit.point.y,
-                                    hit.point.z);
+                                ubi = new Vector3(hit.transform.position.x, hit.transform.position.y,
+                                    hit.transform.position.z);
                                 player.transform.position = new Vector3(ubi.x, ubi.y, ubi.z);
+                            }
+                            else if (triggerReleased == true && hit.transform.CompareTag("Ground"))
+                            {
+                                grnd = new Vector3(hit.point.x, hit.point.y,
+                                    hit.point.z);
+                                player.transform.position = new Vector3(grnd.x, grnd.y, grnd.z);
                             }
                             else // Si el objeto no tiene el Tag, no hace nada
                             {
                                 Debug.Log("Imposible tepear");
                             }
+                            
                         }
-                        
                         else
                         {
-                            _triggerReleased = false;
+                            triggerReleased = false;
                         }
                         
-                        _previousTriggerValue = currentTriggerValue; // Resete el estado del gatillo
+                        previousTriggerValue = currentTriggerValue; // Resete el estado del gatillo
 
                     }
 
@@ -109,4 +94,28 @@ public class Gatillo : MonoBehaviour
             }
         }
     }
+    
+    void ReticuleTeleportation()
+    {
+        RaycastHit hit;
+        bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
+            head.transform.TransformDirection(Vector3.forward), out hit, 40); // guarda la inforacion de raycast
+                    
+        // comprueba qe hasHit tenga la informacion del raycast
+        if (hasHit)
+        {
+            // La reticula central que indica si es posible tepear cambia depediendo de donde apunta
+            if (hit.transform.CompareTag("Tp"))
+            {
+                this.mira1.GetComponent<Image>().enabled = true;
+                this.mira2.GetComponent<Image>().enabled = false;
+            }
+            else
+            {
+                this.mira1.GetComponent<Image>().enabled = false;
+                this.mira2.GetComponent<Image>().enabled = true;
+            } 
+        }
+    }
+
 }
