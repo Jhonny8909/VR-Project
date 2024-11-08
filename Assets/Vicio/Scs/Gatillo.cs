@@ -11,7 +11,7 @@ public class Gatillo : MonoBehaviour
     
     private bool previousTriggerValue;
     private bool triggerReleased;
-    public Vector3 grnd;
+   // public Vector3 grnd;
 
     public Image mira1;
     public Image mira2;
@@ -40,9 +40,8 @@ public class Gatillo : MonoBehaviour
                 {
                     RaycastHit hit;
                     bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
-                        head.transform.TransformDirection(Vector3.forward), out hit, 40); // guarda la inforacion de raycast
+                        head.transform.TransformDirection(Vector3.forward), out hit, 100); // guarda la inforacion de raycast
                     
-                    Vector3 groundUbi = new Vector3();
                     
                     if (hasHit)
                     {
@@ -52,6 +51,8 @@ public class Gatillo : MonoBehaviour
                         if (previousTriggerValue && !currentTriggerValue)
                         {
                             Vector3 ubi;
+                            Vector3 groundUbi;
+                            
                             triggerReleased = true;
                             Debug.Log("Gatillo soltado");
                             
@@ -66,9 +67,9 @@ public class Gatillo : MonoBehaviour
                             }
                             else if (triggerReleased == true && hit.transform.CompareTag("Ground"))
                             {
-                                grnd = new Vector3(hit.point.x, hit.point.y,
+                                groundUbi = new Vector3(hit.point.x, hit.point.y,
                                     hit.point.z);
-                                player.transform.position = new Vector3(grnd.x, grnd.y, grnd.z);
+                                player.transform.position = new Vector3(groundUbi.x, groundUbi.y, groundUbi.z);
                             }
                             else // Si el objeto no tiene el Tag, no hace nada
                             {
@@ -99,13 +100,18 @@ public class Gatillo : MonoBehaviour
     {
         RaycastHit hit;
         bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
-            head.transform.TransformDirection(Vector3.forward), out hit, 40); // guarda la inforacion de raycast
+            head.transform.TransformDirection(Vector3.forward), out hit, 100); // guarda la inforacion de raycast
                     
         // comprueba qe hasHit tenga la informacion del raycast
         if (hasHit)
         {
             // La reticula central que indica si es posible tepear cambia depediendo de donde apunta
             if (hit.transform.CompareTag("Tp"))
+            {
+                this.mira1.GetComponent<Image>().enabled = true;
+                this.mira2.GetComponent<Image>().enabled = false;
+            }
+            else if (hit.transform.CompareTag("Ground"))
             {
                 this.mira1.GetComponent<Image>().enabled = true;
                 this.mira2.GetComponent<Image>().enabled = false;
