@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Knife
   - Ground
+  - Final
   layers:
   - Default
   - TransparentFX
