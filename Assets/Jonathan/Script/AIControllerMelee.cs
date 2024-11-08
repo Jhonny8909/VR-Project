@@ -21,6 +21,7 @@ public class AIControllerMelee : MonoBehaviour
     public float alertedRange = 5f;
     public float chaseRange = 2f;
     public float stopDistance = 1.5f;
+    private Animator animator;
 
     [Header("Patrol Settings")]
     public Transform[] patrolPoints;
@@ -39,6 +40,7 @@ public class AIControllerMelee : MonoBehaviour
     {
         currentState = EnemyState.Idle;
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
         vRInvisibility = FindObjectOfType<VRInvisibility>();
 
@@ -90,7 +92,8 @@ public class AIControllerMelee : MonoBehaviour
     {
         if (patrolPoints.Length > 0)
         {
-            agent.SetDestination(patrolPoints[currentPatrolIndex].position * gameManager.GameTime);
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position /* * gameManager.GameTime?*/);
+            animator.Play("Sword And Shield Walk");
         }
     }
 
@@ -131,8 +134,7 @@ public class AIControllerMelee : MonoBehaviour
 
     void PerformAttack()
     {
-        Debug.Log("Enemy performs an attack!");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        animator.Play("Attack");
     }
 
     bool IsPlayerInSight()
