@@ -19,6 +19,7 @@ public class AIControllerDistance : MonoBehaviour
     public float detectionRange = 10f;
     public float fieldOfViewAngle = 60f;
     public float attackRange = 5f;
+    private Animator animator;
 
     [Header("Patrol Settings")]
     public Transform[] patrolPoints;
@@ -40,6 +41,7 @@ public class AIControllerDistance : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         vRInvisibility = FindObjectOfType<VRInvisibility>();
         gameManager = FindAnyObjectByType<GameManager>();
+        animator = GetComponent<Animator>();
 
         if (patrolPoints.Length > 0)
         {
@@ -91,14 +93,15 @@ public class AIControllerDistance : MonoBehaviour
     {
         if (patrolPoints.Length > 0)
         {
-            agent.SetDestination(patrolPoints[currentPatrolIndex].position * gameManager.GameTime);
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position /* gameManager.GameTime*/);
+            animator.Play("Walk");
         }
     }
 
     void Alerted()
     {
         Debug.Log("Enemy is alerted.");
-
+        agent.SetDestination(player.position /* gameManager.GameTime*/);
         
         if (distanceToPlayer <= attackRange)
         {
@@ -129,11 +132,10 @@ public class AIControllerDistance : MonoBehaviour
 
     void KillPlayer()
     {
-        Debug.Log("Player has been killed by the enemy."); 
-        
+        animator.Play("Attack");
         //SceneManager.LoadScene("GrayBox2.0");
         dead = true;
-       SceneManager.LoadScene("Gray", LoadSceneMode.Single);
+        SceneManager.LoadScene("PruebasJonathan");
 
     }
 

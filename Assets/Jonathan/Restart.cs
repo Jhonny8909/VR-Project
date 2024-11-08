@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class Restart : MonoBehaviour
 {
+    public string scene;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene("PruebasJonathan");
+            SceneManager.LoadScene(scene);
         }
     }
 }

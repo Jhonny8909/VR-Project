@@ -115,7 +115,7 @@ public class AIControllerMelee : MonoBehaviour
     void Chase()
     {
         Debug.Log("Enemy is chasing the player.");
-        agent.SetDestination(player.position * gameManager.GameTime);
+        agent.SetDestination(player.position /* gameManager.GameTime*/);
 
         if (!IsPlayerInSight())
         {
