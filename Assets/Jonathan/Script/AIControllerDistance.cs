@@ -1,7 +1,6 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 public class AIControllerDistance : MonoBehaviour
 {
@@ -20,6 +19,7 @@ public class AIControllerDistance : MonoBehaviour
     public float fieldOfViewAngle = 60f;
     public float attackRange = 5f;
     private Animator animator;
+    public GameObject prefabArrow;
 
     [Header("Patrol Settings")]
     public Transform[] patrolPoints;
@@ -34,6 +34,8 @@ public class AIControllerDistance : MonoBehaviour
     float distanceToPlayer;
 
     private VRInvisibility vRInvisibility;
+
+    float cooldown = 0f;
 
     void Start()
     {
@@ -51,9 +53,13 @@ public class AIControllerDistance : MonoBehaviour
 
     void Update()
     {
-        distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if(!dead)
+        if (cooldown > 0f)
         {
+            cooldown -= Time.deltaTime;
+        }
+
+         distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
             switch (currentState)
             {
                 case EnemyState.Idle:
@@ -69,11 +75,13 @@ public class AIControllerDistance : MonoBehaviour
                     break;
 
                 case EnemyState.Attack:
+
+                if (cooldown <= 0f)
+                {
                     Attack();
+                }
                     break;
             }
-        }
-        
     }
 
     
@@ -102,7 +110,13 @@ public class AIControllerDistance : MonoBehaviour
     {
         Debug.Log("Enemy is alerted.");
         agent.SetDestination(player.position /* gameManager.GameTime*/);
+        animator.Play("Walk");
         
+        if(distanceToPlayer > attackRange)
+        {
+            currentState = EnemyState.Idle;
+        }
+
         if (distanceToPlayer <= attackRange)
         {
             currentState = EnemyState.Attack;
@@ -118,24 +132,16 @@ public class AIControllerDistance : MonoBehaviour
         Debug.Log("Enemy is attempting to attack the player.");
 
         agent.isStopped = true;
-        
-        KillPlayer();
+        animator.Play("Attack");
+        if(cooldown <= 0f) cooldown = 1f;
+        Instantiate(prefabArrow, gameObject.transform);
 
         if (distanceToPlayer > attackRange)
         {
+            Debug.Log("El jugador salio del rango");
             agent.isStopped = false;
-            currentState = EnemyState.Idle;
+            currentState = EnemyState.Alerted;
         }
-
-        
-    }
-
-    void KillPlayer()
-    {
-        animator.Play("Attack");
-        //SceneManager.LoadScene("GrayBox2.0");
-        dead = true;
-        SceneManager.LoadScene("PruebasJonathan");
 
     }
 
