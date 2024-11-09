@@ -11,7 +11,8 @@ public class Gatillo : MonoBehaviour
     
     private bool previousTriggerValue;
     private bool triggerReleased;
-   // public Vector3 grnd;
+    private RaycastHit raycastHitInfo;
+    private bool hasHit;
 
     public Image mira1;
     public Image mira2;
@@ -20,7 +21,7 @@ public class Gatillo : MonoBehaviour
     void FixedUpdate()
     {
         CheckInput();
-        ReticuleTeleportation();
+        //ReticuleTeleportation();
     }
 
     void CheckInput()
@@ -38,14 +39,38 @@ public class Gatillo : MonoBehaviour
                 // Activa el raycast cuando se presiona el gatillo
                 if (device.TryGetFeatureValue(CommonUsages.triggerButton, out currentTriggerValue))
                 {
-                    RaycastHit hit;
-                    bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
+                    Ray ray = new Ray(player.transform.position + Vector3.up / 2,
+                        head.transform.TransformDirection(Vector3.forward));
+                    float maxDistance = 100f;
+                    hasHit = Physics.Raycast(ray, out raycastHitInfo, maxDistance);
+                    /*
+                    RaycastHit hit; 
+                    hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
                         head.transform.TransformDirection(Vector3.forward), out hit, 100); // guarda la inforacion de raycast
-                    
-                    
+                    */ 
                     if (hasHit)
                     {
                         Debug.Log("Rayito casto");
+                        
+                        if (hasHit)
+                        {
+                            // La reticula central que indica si es posible tepear cambia depediendo de donde apunta
+                            if (raycastHitInfo.transform.CompareTag("Tp"))
+                            {
+                                this.mira1.GetComponent<Image>().enabled = true;
+                                this.mira2.GetComponent<Image>().enabled = false;
+                            }
+                            else if (raycastHitInfo.transform.CompareTag("Ground"))
+                            {
+                                this.mira1.GetComponent<Image>().enabled = true;
+                                this.mira2.GetComponent<Image>().enabled = false;
+                            }
+                            else
+                            {
+                                this.mira1.GetComponent<Image>().enabled = false;
+                                this.mira2.GetComponent<Image>().enabled = true;
+                            } 
+                        }
                         
                         // Verifica si el gatillo fue soltado
                         if (previousTriggerValue && !currentTriggerValue)
@@ -57,18 +82,18 @@ public class Gatillo : MonoBehaviour
                             Debug.Log("Gatillo soltado");
                             
                             // Si se suelta el gatillo sobre un objeto con el Tag Tp se teletransporta
-                            if(triggerReleased == true && hit.transform.CompareTag("Tp"))
+                            if(triggerReleased == true && raycastHitInfo.transform.CompareTag("Tp"))
                             {
                                 Debug.Log("Se solto sobre algo tepeable");
                                 
-                                ubi = new Vector3(hit.transform.position.x, hit.transform.position.y,
-                                    hit.transform.position.z);
+                                ubi = new Vector3(raycastHitInfo.transform.position.x, raycastHitInfo.transform.position.y,
+                                    raycastHitInfo.transform.position.z);
                                 player.transform.position = new Vector3(ubi.x, ubi.y, ubi.z);
                             }
-                            else if (triggerReleased == true && hit.transform.CompareTag("Ground"))
+                            else if (triggerReleased == true && raycastHitInfo.transform.CompareTag("Ground"))
                             {
-                                groundUbi = new Vector3(hit.point.x, hit.point.y,
-                                    hit.point.z);
+                                groundUbi = new Vector3(raycastHitInfo.point.x, raycastHitInfo.point.y,
+                                    raycastHitInfo.point.z);
                                 player.transform.position = new Vector3(groundUbi.x, groundUbi.y, groundUbi.z);
                             }
                             else // Si el objeto no tiene el Tag, no hace nada
@@ -95,7 +120,17 @@ public class Gatillo : MonoBehaviour
             }
         }
     }
-    
+
+    private void OnDrawGizmosSelected()
+    {
+        if (hasHit)
+        {
+            Gizmos.color = Color.green;
+            //Gizmos.DrawSphere(raycastHitInfo.point, 0.2f);
+            Gizmos.DrawRay(player.transform.position + Vector3.up ,raycastHitInfo.point);
+        }
+    }
+    /*
     void ReticuleTeleportation()
     {
         RaycastHit hit;
@@ -123,5 +158,5 @@ public class Gatillo : MonoBehaviour
             } 
         }
     }
-
+*/
 }
