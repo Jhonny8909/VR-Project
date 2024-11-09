@@ -98,9 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52d358a8ab15934a9e9154ed7e3b592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: PruebasJonathan
+  scene: TercerNivel
   throwSpeedMultiplier: 10
-  player: {x: 0, y: 0, z: 0}
 --- !u!136 &3910857536507681544
 CapsuleCollider:
   m_ObjectHideFlags: 0
