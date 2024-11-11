@@ -15,7 +15,8 @@ public class Throwing : MonoBehaviour
     private Vector3 lastPosition, currentPosition, throwDirection;
 
     private GameManager gameManager;
-    
+
+    public AudioSource throwKnife;    
 
     private void Awake()
     {
@@ -58,6 +59,8 @@ public class Throwing : MonoBehaviour
 
             triggerKnife.KnifeThrown(); // Llama a KnifeThrown despues de lanzar
             Debug.Log("Cuchillo lanzado.");
+
+            AudioManager.Instance.PlaySound(AudioManager.Instance.knifeThrow);
         }
         else
         {

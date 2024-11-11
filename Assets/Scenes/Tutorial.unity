@@ -1665,6 +1665,70 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542231726}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1561541332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1561541334}
+  - component: {fileID: 1561541333}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1561541333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561541332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1d9ce1456e17f4a955a53d5726de1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knifeDraw: {fileID: 8300000, guid: 43ce4b7c9ab1585498096a2f7a18db41, type: 3}
+  knifeAim: {fileID: 0}
+  knifeThrow: {fileID: 8300000, guid: b2a5cad7f3c9f6941b29c66d224f19a8, type: 3}
+  knifeHit: {fileID: 0}
+  playerRespawn: {fileID: 0}
+  playerDeath: {fileID: 8300000, guid: 04e281fa30e93e04487c321e60ccfd37, type: 3}
+  playerWalk: {fileID: 8300000, guid: 428b6688d992197418c6c758679f5019, type: 3}
+  teleportAim: {fileID: 0}
+  teleportLaunch: {fileID: 0}
+  teleportReload: {fileID: 0}
+  teleportHit: {fileID: 0}
+  invisibilityOn: {fileID: 0}
+  invisibilityActive: {fileID: 0}
+  invisibilityOff: {fileID: 0}
+  invisibilityReload: {fileID: 0}
+  enemyWalk: {fileID: 0}
+  enemyAttack: {fileID: 0}
+  enemyHitPlayer: {fileID: 0}
+  enemyDetectPlayer: {fileID: 0}
+  backgroundMusic: {fileID: 0}
+--- !u!4 &1561541334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561541332}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7734694, y: 1.5942001, z: -1.1488438}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583185084
 GameObject:
   m_ObjectHideFlags: 0
@@ -2532,6 +2596,10 @@ PrefabInstance:
       propertyPath: m_Height
       value: 1.39
       objectReference: {fileID: 0}
+    - target: {fileID: 6620926977233610714, guid: 3e837e01b63b589428401f47ce405f57, type: 3}
+      propertyPath: throwKnife
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7496362305194350811, guid: 3e837e01b63b589428401f47ce405f57, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -2992,3 +3060,4 @@ SceneRoots:
   - {fileID: 379168414}
   - {fileID: 1977085205}
   - {fileID: 1839345580}
+  - {fileID: 1561541334}
