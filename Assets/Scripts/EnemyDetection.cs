@@ -47,6 +47,8 @@ public class EnemyDetection : MonoBehaviour
                     {
                         Debug.Log("Jugador detectado por el enemigo.");
                         playerDetected = true;
+
+                        AudioManager.Instance.PlaySFX(2);
                     }
                 }
                 else

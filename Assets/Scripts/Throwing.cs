@@ -59,8 +59,7 @@ public class Throwing : MonoBehaviour
 
             triggerKnife.KnifeThrown(); // Llama a KnifeThrown despues de lanzar
             Debug.Log("Cuchillo lanzado.");
-
-            AudioManager.Instance.PlaySound(AudioManager.Instance.knifeThrow);
+            
         }
         else
         {
