@@ -41,7 +41,7 @@ public class Gatillo : MonoBehaviour
                 {
                     Ray ray = new Ray(player.transform.position + Vector3.up / 2,
                         head.transform.TransformDirection(Vector3.forward));
-                    float maxDistance = 100f;
+                    float maxDistance = 35f;
                     hasHit = Physics.Raycast(ray, out raycastHitInfo, maxDistance);
                     /*
                     RaycastHit hit; 
@@ -88,7 +88,7 @@ public class Gatillo : MonoBehaviour
                                 
                                 ubi = new Vector3(raycastHitInfo.transform.position.x, raycastHitInfo.transform.position.y,
                                     raycastHitInfo.transform.position.z);
-                                player.transform.position = new Vector3(ubi.x, ubi.y, ubi.z);
+                                player.transform.position = new Vector3(ubi.x, ubi.y + 3f, ubi.z);
                             }
                             else if (triggerReleased == true && raycastHitInfo.transform.CompareTag("Ground"))
                             {
