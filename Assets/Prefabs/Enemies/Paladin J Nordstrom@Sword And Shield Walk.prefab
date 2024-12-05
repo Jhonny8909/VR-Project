@@ -603,6 +603,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52d358a8ab15934a9e9154ed7e3b592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 
+  throwSpeedMultiplier: 1
 --- !u!54 &8957154628219610521
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1507,9 +1509,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.56860316
-  m_Height: 1.8479091
+  m_Height: 1.8177716
   m_Direction: 1
-  m_Center: {x: 0, y: 0.91186386, z: 0.03386557}
+  m_Center: {x: 0, y: 0.92693263, z: 0.03386557}
 --- !u!54 &8444570099793162909
 Rigidbody:
   m_ObjectHideFlags: 0
