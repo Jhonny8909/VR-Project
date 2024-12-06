@@ -51,6 +51,8 @@ public class Boss : MonoBehaviour
             GoToNextPatrolPoint();
         }
 
+        life = 3;
+
         gameManager = GetComponent<GameManager>();
     }
 

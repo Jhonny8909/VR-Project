@@ -6,7 +6,12 @@ using UnityEngine;
 
 public class DestroyEnemy : MonoBehaviour
 {
+    Boss FinalBoss;
 
+    private void Start()
+    {
+        FinalBoss = FindAnyObjectByType<Boss>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))

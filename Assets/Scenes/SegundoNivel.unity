@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.028301895, g: 0.028301895, b: 0.028301895, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0
+  m_FogDensity: 0.07
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
@@ -19341,7 +19341,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -89712,8 +89712,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1806162434807961501, guid: 44c5164e7eabad54c9fc76b7a0674c09, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2006996918}
   m_SourcePrefab: {fileID: 100100000, guid: 44c5164e7eabad54c9fc76b7a0674c09, type: 3}
+--- !u!1 &2006996917 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1806162434807961501, guid: 44c5164e7eabad54c9fc76b7a0674c09, type: 3}
+  m_PrefabInstance: {fileID: 2006996916}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2006996918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006996917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62a50a721c7b8d43b88cad3cf5414f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Originalcolor: {r: 0, g: 0, b: 0, a: 0}
+  Damagecolor: {r: 1, g: 1, b: 1, a: 0}
+  damageflashduration: 0.2
 --- !u!1 &2007319888
 GameObject:
   m_ObjectHideFlags: 0
@@ -95826,6 +95849,10 @@ PrefabInstance:
       value: -13.683952
       objectReference: {fileID: 0}
     - target: {fileID: 2035063568698931947, guid: 3fedf789bfacc6548aa2577c005c903d, type: 3}
+      propertyPath: life
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035063568698931947, guid: 3fedf789bfacc6548aa2577c005c903d, type: 3}
       propertyPath: live
       value: 10
       objectReference: {fileID: 0}
@@ -96080,6 +96107,10 @@ PrefabInstance:
     - target: {fileID: 4092004486049428181, guid: 3fedf789bfacc6548aa2577c005c903d, type: 3}
       propertyPath: m_Name
       value: boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092004486049428181, guid: 3fedf789bfacc6548aa2577c005c903d, type: 3}
+      propertyPath: m_TagString
+      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 4579500625898040766, guid: 3fedf789bfacc6548aa2577c005c903d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
