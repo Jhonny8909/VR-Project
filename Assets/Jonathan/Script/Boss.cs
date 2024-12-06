@@ -30,6 +30,7 @@ public class Boss : MonoBehaviour
     public float alertSpeed = 1f;
     public float chaseSpeed = 3f;
     public string nextLevel;
+    public int life;
 
     private NavMeshAgent agent;
     public LayerMask obstacleMask;
@@ -128,14 +129,9 @@ public class Boss : MonoBehaviour
     {
         if (collision.transform.CompareTag("Player"))
         {
-            PerformAttack();
+            SceneManager.LoadScene(nextLevel);
             dead = true;
         }
-    }
-
-    void PerformAttack()
-    {
-        animator.Play("Attack");
     }
 
     bool IsPlayerInSight()
@@ -164,9 +160,9 @@ public class Boss : MonoBehaviour
         return false;
     }
 
-    private void OnDisable()
+    public void BossMuerto(string escena)
     {
-        SceneManager.LoadScene(nextLevel);
+        SceneManager.LoadScene(escena);
     }
 
     private void OnDrawGizmosSelected()
