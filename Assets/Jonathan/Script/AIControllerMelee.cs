@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 public class AIControllerMelee : MonoBehaviour
 {
@@ -155,7 +154,11 @@ public class AIControllerMelee : MonoBehaviour
                 }
             }
         }
-        
+        else
+        {
+            currentState = EnemyState.Idle;
+        }
+
         return false;
     }
 

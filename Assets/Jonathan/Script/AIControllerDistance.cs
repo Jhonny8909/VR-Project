@@ -163,6 +163,10 @@ public class AIControllerDistance : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            currentState = EnemyState.Idle;
+        }
         return false;
     }
 
