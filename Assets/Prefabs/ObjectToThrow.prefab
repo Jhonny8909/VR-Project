@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6014372108828731517}
   - component: {fileID: 9172245010310181504}
   - component: {fileID: 7620432254208092295}
+  - component: {fileID: -921956833193444255}
   m_Layer: 0
   m_Name: ObjectToThrow
   m_TagString: Weapon
@@ -133,3 +134,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-921956833193444255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4504824222451691701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330d2505bc8c08949b8b5636bb09db38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

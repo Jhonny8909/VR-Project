@@ -1395,6 +1395,7 @@ GameObject:
   - component: {fileID: 3845287991516553930}
   - component: {fileID: 7001904683062695595}
   - component: {fileID: 8444570099793162909}
+  - component: {fileID: 1532484410873227813}
   m_Layer: 0
   m_Name: Paladin J Nordstrom@Sword And Shield Walk
   m_TagString: Untagged
@@ -1539,6 +1540,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1532484410873227813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4156353490224090251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62a50a721c7b8d43b88cad3cf5414f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Originalcolor: {r: 0, g: 0, b: 0, a: 0}
+  Damagecolor: {r: 1, g: 1, b: 1, a: 0}
+  damageflashduration: 0.2
 --- !u!1 &4183175239953606886
 GameObject:
   m_ObjectHideFlags: 0
