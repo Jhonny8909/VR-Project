@@ -54140,6 +54140,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1793047261581076050, guid: 596ad7d93a7440e438e0bac4c836129c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793047261581076050, guid: 596ad7d93a7440e438e0bac4c836129c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1993977363522544921, guid: 596ad7d93a7440e438e0bac4c836129c, type: 3}
       propertyPath: m_CameraType
       value: 0
@@ -54168,6 +54176,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2453539946784593908, guid: 596ad7d93a7440e438e0bac4c836129c, type: 3}
+      propertyPath: knife
+      value: 
+      objectReference: {fileID: 3993915179539247736, guid: 58d73973c6bffeb4a8ad5895cc930e11, type: 3}
     - target: {fileID: 3187134218657473237, guid: 596ad7d93a7440e438e0bac4c836129c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5
@@ -54263,6 +54275,10 @@ PrefabInstance:
     - target: {fileID: 3785767692537614292, guid: 596ad7d93a7440e438e0bac4c836129c, type: 3}
       propertyPath: m_projectionMatrixMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573322938624830672, guid: 596ad7d93a7440e438e0bac4c836129c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
