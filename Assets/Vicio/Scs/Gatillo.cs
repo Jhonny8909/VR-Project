@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +20,6 @@ public class Gatillo : MonoBehaviour
     void FixedUpdate()
     {
         CheckInput();
-        //ReticuleTeleportation();
     }
 
     void CheckInput()
@@ -41,7 +39,7 @@ public class Gatillo : MonoBehaviour
                 {
                     Ray ray = new Ray(player.transform.position + Vector3.up / 2,
                         head.transform.TransformDirection(Vector3.forward));
-                    float maxDistance = 35f;
+                    float maxDistance = 20f;
                     hasHit = Physics.Raycast(ray, out raycastHitInfo, maxDistance);
                     /*
                     RaycastHit hit; 
@@ -120,43 +118,4 @@ public class Gatillo : MonoBehaviour
             }
         }
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (hasHit)
-        {
-            Gizmos.color = Color.green;
-            //Gizmos.DrawSphere(raycastHitInfo.point, 0.2f);
-            Gizmos.DrawRay(player.transform.position + Vector3.up ,raycastHitInfo.point);
-        }
-    }
-    /*
-    void ReticuleTeleportation()
-    {
-        RaycastHit hit;
-        bool hasHit = Physics.Raycast(player.transform.position + Vector3.up / 2,
-            head.transform.TransformDirection(Vector3.forward), out hit, 100); // guarda la inforacion de raycast
-                    
-        // comprueba qe hasHit tenga la informacion del raycast
-        if (hasHit)
-        {
-            // La reticula central que indica si es posible tepear cambia depediendo de donde apunta
-            if (hit.transform.CompareTag("Tp"))
-            {
-                this.mira1.GetComponent<Image>().enabled = true;
-                this.mira2.GetComponent<Image>().enabled = false;
-            }
-            else if (hit.transform.CompareTag("Ground"))
-            {
-                this.mira1.GetComponent<Image>().enabled = true;
-                this.mira2.GetComponent<Image>().enabled = false;
-            }
-            else
-            {
-                this.mira1.GetComponent<Image>().enabled = false;
-                this.mira2.GetComponent<Image>().enabled = true;
-            } 
-        }
-    }
-*/
 }
