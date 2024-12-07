@@ -30,6 +30,7 @@ public class Boss : MonoBehaviour
     public float alertSpeed = 1f;
     public float chaseSpeed = 3f;
     public string nextLevel;
+    public string level;
     public int life;
 
     private NavMeshAgent agent;
@@ -131,7 +132,7 @@ public class Boss : MonoBehaviour
     {
         if (collision.transform.CompareTag("Player"))
         {
-            SceneManager.LoadScene(nextLevel);
+            SceneManager.LoadScene(level);
             dead = true;
         }
     }
