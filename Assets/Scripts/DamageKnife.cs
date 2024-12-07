@@ -1,34 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DamageKnife : MonoBehaviour
 {
-    FeedBackDaño fdb;
+    FeedBackDano fdb;
     Boss FinalBoss;
 
     private void Start()
     {
         FinalBoss = FindAnyObjectByType<Boss>();
     }
-    private void OnColliderEnter(Collider collision)
-    {
-        if (collision.CompareTag("Enemy"))
-        {
-           StartCoroutine(fdb.damageflash());
-           collision.gameObject.SetActive(false);
-           Destroy(this.gameObject);
-        }
 
-        if (collision.CompareTag("Boss"))
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
         {
-            StartCoroutine(fdb.damageflash());
+            other.gameObject.SetActive(false);
+            Destroy(this.gameObject);
+        }
+        else if (other.CompareTag("Boss"))
+        {
             FinalBoss.life--;
-            Destroy(this);
+            Destroy(this.gameObject);
 
             if (FinalBoss.life <= 0)
             {
-                collision.gameObject.SetActive(false);
+                other.gameObject.SetActive(false);
+                SceneManager.LoadScene(FinalBoss.nextLevel);
             }
         }
     }

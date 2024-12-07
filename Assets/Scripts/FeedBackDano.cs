@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FeedBackDaño : MonoBehaviour
+public class FeedBackDano : MonoBehaviour
 {
     public Color Originalcolor;
     public Color Damagecolor;

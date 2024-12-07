@@ -54,7 +54,7 @@ public class Throwing : MonoBehaviour
             {
                 triggerKnife.heldKnife.transform.parent = null;
                 rb.isKinematic = false;
-                rb.velocity = trueDirection * throwSpeedMultiplier * gameManager.GameTime;
+                rb.velocity = trueDirection * throwSpeedMultiplier;
             }
 
             triggerKnife.KnifeThrown(); // Llama a KnifeThrown despues de lanzar
